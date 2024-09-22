@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Balls.View.UI
 {
     [RequireComponent(typeof(CanvasGroup))]
-    public class LoadingCurtain : MonoBehaviour
+    public class LoadingCurtain : MonoBehaviour, ILoadingCurtain
     {
         [SerializeField] private float _fadeDuration;
 
@@ -17,16 +17,26 @@ namespace Balls.View.UI
             _canvasGroup = GetComponent<CanvasGroup>();
         }
 
-        public UniTask Open(CancellationToken cancellationToken)
+        public async UniTask Open(CancellationToken cancellationToken)
         {
-            return _canvasGroup.DOFade(1, _fadeDuration)
+            gameObject.SetActive(true);
+
+            await _canvasGroup.DOFade(1, _fadeDuration)
                                .WithCancellation(cancellationToken);
         }
 
-        public UniTask Close(CancellationToken cancellationToken)
+        public async UniTask Close(CancellationToken cancellationToken)
         {
-            return _canvasGroup.DOFade(0, _fadeDuration)
-                               .WithCancellation(cancellationToken);
+            await _canvasGroup.DOFade(0, _fadeDuration)
+                              .WithCancellation(cancellationToken);
+            
+            gameObject.SetActive(false);
         }
+
+        public void SetOpenedState()
+        {
+            _canvasGroup.alpha = 1.0f;
+            gameObject.SetActive(true);
+        }    
     }
 }

@@ -1,5 +1,8 @@
+using Balls.Source.Logic.GameBoard;
+using Balls.Source.View.GameBoard;
 using Reflex.Core;
 using UnityEngine;
+using Grid = Balls.Source.Logic.GameBoard.Grid;
 
 public class GameBoardInstaller : MonoBehaviour, IInstaller
 {
@@ -10,12 +13,12 @@ public class GameBoardInstaller : MonoBehaviour, IInstaller
     public void InstallBindings(ContainerBuilder containerBuilder)
     {
         containerBuilder
-            .AddSingleton(typeof(GameBoardGrid))
+            .AddSingleton(typeof(Grid))
             .AddSingleton(typeof(CellPointerInput))
             .AddSingleton(_gameBoardView)
             .AddSingleton(typeof(GameBoard))
             .AddSingleton(_ballViewFactory, typeof(IBallViewFactory))
-            .AddSingleton(typeof(BallGenerator))
+            .AddSingleton(typeof(RandomBallGenerator))
             .AddSingleton(_camera);
     }
 }
