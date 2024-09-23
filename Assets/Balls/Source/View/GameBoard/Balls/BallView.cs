@@ -1,5 +1,7 @@
 ﻿using DG.Tweening;
 using System;
+using Balls.Source.Core.Struct;
+using Balls.Source.Infrastructure.Extensions;
 using UnityEngine;
 
 public class BallView : MonoBehaviour
@@ -12,7 +14,7 @@ public class BallView : MonoBehaviour
     private Sequence _jumpSequence;
     private bool _animationStopRequested;
 
-    public Vector2Int CellPosition { get; set; }
+    public GridPosition CellPosition { get; set; }
 
     public void Initialize(Sprite ballSprite)
     {
@@ -70,7 +72,7 @@ public class BallView : MonoBehaviour
 
     public void MoveToCellPosition()
     {
-        transform.position = (Vector2)CellPosition;
+        transform.position = CellPosition.ToVector3();
     }
 
     private void OnDestroy()

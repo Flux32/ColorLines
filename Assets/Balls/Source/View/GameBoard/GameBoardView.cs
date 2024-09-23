@@ -1,24 +1,29 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using DG.Tweening;
-using Reflex.Attributes;
+using System.Threading;
 using UnityEngine;
+using Reflex.Attributes;
 using Balls.Source.Core.Struct;
+using Balls.Source.Logic.GameBoard;
 using Balls.Source.Logic.GameBoard.Balls;
-using Balls.Source.Logic.GameBoard.Pathfinding;
+using Balls.Source.View.GameBoard.Jobs;
 
 namespace Balls.Source.View.GameBoard
 {
-    public class GameBoardView : MonoBehaviour 
+    public class GameBoardView : MonoBehaviour, IDisposable
     {
         private IBallViewFactory _ballFactory;
-
+        private readonly IJobExecutor _jobExecutor = new JobExecutor();
+        
         private Logic.GameBoard.GameBoard _gameBoard;
 
         private BallView[,] _ballViews = new BallView[5,5];
 
         private BallView _selectedBall;
         private bool _canSelect = true;
+        
+        private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
         
         [Inject]
         private void Constructor(Logic.GameBoard.GameBoard gameBoard, IBallViewFactory ballViewFactory)
@@ -27,19 +32,19 @@ namespace Balls.Source.View.GameBoard
             _ballFactory = ballViewFactory;
         }
 
+        private void Start()
+        {
+            IEnumerable<Ball> placedBalls = _gameBoard.InitializeGame();
+            _jobExecutor.Execute(_cancellationTokenSource.Token, new SpawnBallJob(_ballFactory, _ballViews, placedBalls));
+        }
+
         private void OnEnable()
         {
-            _gameBoard.BallsPlaced += OnBallPlaced;
-            _gameBoard.BallMoved += OnBallMoved;
-            _gameBoard.BallsSolved += OnBallsSolved;
             _gameBoard.Filled += Filled;
         }
         
         private void OnDisable()
         {
-            _gameBoard.BallsPlaced -= OnBallPlaced;
-            _gameBoard.BallMoved -= OnBallMoved;
-            _gameBoard.BallsSolved -= OnBallsSolved;
             _gameBoard.Filled -= Filled;
         }
 
@@ -48,55 +53,24 @@ namespace Balls.Source.View.GameBoard
             _canSelect = false;
         }
         
-        private void OnBallMoved(Path path, Ball ball)
-        {
-            GridPosition fromPosition = path.Points[0];
-            GridPosition toPosition = path.Points.Last();
-
-            Sequence sequence = DOTween.Sequence();
-
-            BallView ballView = _ballViews[fromPosition.X, fromPosition.Y];
-            _ballViews[fromPosition.X, fromPosition.Y] = null;
-            _ballViews[toPosition.X, toPosition.Y] = ballView;
-            ballView.CellPosition = toPosition.ToVector2Int();
-        
-            foreach (GridPosition position in path.Points)
-                sequence.Append(ballView.transform.DOMove(position.ToVector2(), 0.3f).SetEase(Ease.Linear));
-        }
-
-        private void OnBallPlaced(IEnumerable<Ball> balls)
-        {
-            foreach (Ball ball in balls)
-            {
-                BallView ballView = _ballFactory.CreateBall(ball.Id);
-                ballView.CellPosition = ball.Position.ToVector2Int();
-                ballView.MoveToCellPosition();
-                _ballViews[ball.Position.X, ball.Position.Y] = ballView;
-            }
-        }
-
-        private void OnBallsSolved(IEnumerable<Ball> balls)
-        {
-            foreach (Ball ball in balls)
-                Destroy(_ballViews[ball.Position.X, ball.Position.Y].gameObject);
-        }
-        
-        public void Select(Vector2Int position)
+        public void Select(GridPosition position)
         {
             if (_canSelect == false)
                 return;
                 
-            BallView ballView = _ballViews[position.x, position.y];
+            BallView ballView = _ballViews[position.X, position.Y];
             
             if (ballView == null)
             {
                 if (_selectedBall != null)
                 {
                     _selectedBall.Unselect();
-                    Vector2Int previousPosition = _selectedBall.CellPosition;
+                    MoveOperationResult moveOperationResult = _gameBoard.MakeMove(_selectedBall.CellPosition, 
+                                                                                  position);
                     _selectedBall = null;
-                    _gameBoard.MakeMove(new GridPosition(previousPosition.x, previousPosition.y),
-                        new GridPosition(position.x, position.y));
+
+                    if (moveOperationResult.Result == MoveResult.Success)
+                        _jobExecutor.Execute(_cancellationTokenSource.Token, CreateJobs(moveOperationResult));
                 }
 
                 return;
@@ -110,6 +84,22 @@ namespace Balls.Source.View.GameBoard
 
             ballView.Select();
             _selectedBall = ballView;
+        }
+
+        private IViewJob[] CreateJobs(MoveOperationResult moveOperationResult)
+        {
+            IViewJob[] jobs = {
+                new MoveBallJob(moveOperationResult.MovedResult.Path, 10f, _ballViews),
+                new SolveBallJob(moveOperationResult.SolvedBalls, _ballViews),
+                new SpawnBallJob(_ballFactory, _ballViews, moveOperationResult.BallsPlaced),
+            };
+
+            return jobs;
+        }
+
+        public void Dispose()
+        {
+            _cancellationTokenSource.Dispose();
         }
     }
 }

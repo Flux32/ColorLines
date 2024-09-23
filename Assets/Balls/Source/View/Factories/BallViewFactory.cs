@@ -7,12 +7,11 @@ public class BallViewFactory : MonoBehaviour, IBallViewFactory
     [SerializeField] private Sprite _purpleBall;
     [SerializeField] private Sprite _greenBall;
     [SerializeField] private Sprite _blueBall;
-
     [SerializeField] private BallView _ballPrefab;
 
-    public BallView CreateBall(BallId ballID)
+    public BallView CreateBall(BallId ballID, Vector3 position)
     {
-        BallView ballPrefab = Instantiate(_ballPrefab);
+        BallView ball = Instantiate(_ballPrefab);
 
         Sprite ballSprite = ballID switch //TODO: remove
         {
@@ -22,8 +21,9 @@ public class BallViewFactory : MonoBehaviour, IBallViewFactory
             _ => throw new InvalidOperationException($"The ball cannot be created. The sprite with ID: {ballID} is missing"),
         };
 
-        ballPrefab.Initialize(ballSprite);
-
-        return ballPrefab;
+        ball.Initialize(ballSprite);
+        ball.transform.position = position;
+        
+        return ball;
     }
 }

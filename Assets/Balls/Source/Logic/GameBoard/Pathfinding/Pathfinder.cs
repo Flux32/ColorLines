@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Balls.Core;
 using Balls.Source.Core.Struct;
+using Balls.Source.Infrastructure.Extensions;
 using UnityEngine;
 
 namespace Balls.Source.Logic.GameBoard.Pathfinding

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Balls.Source.Core.Struct;
+using UnityEngine;
 
 public class CellPointerInput
 {
@@ -9,12 +10,12 @@ public class CellPointerInput
         _camera = camera;
     }
 
-    public Vector2Int GetMouseCellPosition()
+    public GridPosition GetMouseCellPosition()
     {
         Vector3 position = _camera.ScreenToWorldPoint(Input.mousePosition);
 
         int x = (int)Mathf.Round(position.x);
         int y = (int)Mathf.Round(position.y);
-        return new Vector2Int(x, y);
+        return new GridPosition(x, y);
     }
 }

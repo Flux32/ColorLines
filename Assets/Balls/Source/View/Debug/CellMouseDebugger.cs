@@ -1,4 +1,4 @@
-using Balls.Source.Logic.GameBoard;
+using Balls.Source.Core.Struct;
 using Reflex.Attributes;
 using UnityEngine;
 using Grid = Balls.Source.Logic.GameBoard.Grid;
@@ -19,10 +19,10 @@ public class CellMouseDebugger : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
-            Vector2Int cellPosition = _cellInput.GetMouseCellPosition();
+            GridPosition cellPosition = _cellInput.GetMouseCellPosition();
 
-            Debug.Log($"IsCellExist: {_grid.IsCellExist(cellPosition.ToGridPosition())}");
-            Debug.Log($"IsBallExist: {_grid.IsBallExist(cellPosition.ToGridPosition())}");
+            Debug.Log($"IsCellExist: {_grid.IsCellExist(cellPosition)}");
+            Debug.Log($"IsBallExist: {_grid.IsBallExist(cellPosition)}");
         }
     }
 }

@@ -16,12 +16,7 @@ public class GameBoardInputRouter : MonoBehaviour
         _gameBoardView = gameBoardView;
         _cellInput = cellInput;
     }
-
-    private void Start()
-    {
-        _gameBoard.InitializeGame();
-    }
-
+    
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0) == true)
