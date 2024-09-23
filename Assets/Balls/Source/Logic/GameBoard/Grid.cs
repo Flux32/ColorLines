@@ -6,8 +6,8 @@ namespace Balls.Source.Logic.GameBoard
 {
     public class Grid
     {
-        private Ball[,] _balls = new Ball[5, 5];
-        private int _fillAmount = 0;
+        private readonly Ball[,] _balls = new Ball[5, 5];
+        private int _fillAmount;
 
         public Ball this[GridPosition position]
         { 
@@ -52,13 +52,23 @@ namespace Balls.Source.Logic.GameBoard
             return true;
         }
         
-        public bool TryRemoveItem(GridPosition position)
+        public bool TryRemoveBall(GridPosition position)
         {
             this[position] = null;
             _fillAmount -= 1;
             return true;
         }
 
+        public bool TryReplaceBall(GridPosition fromPosition, GridPosition toPosition)
+        {
+            if (IsBallExist(fromPosition) == false || IsBallExist(toPosition) == true)
+                return false;
+
+            this[toPosition] = this[fromPosition].WithPosition(toPosition);
+            this[fromPosition] = null;
+            return true;
+        }
+        
         public bool CanPlaceBall(GridPosition position)
         {
             return IsBallExist(position) == false;

@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Balls.Source.Infrastructure.Extensions;
 using Balls.Source.Logic.GameBoard.Balls;
+using Balls.Source.View.GameBoard.Balls;
 
 namespace Balls.Source.View.GameBoard.Jobs
 {

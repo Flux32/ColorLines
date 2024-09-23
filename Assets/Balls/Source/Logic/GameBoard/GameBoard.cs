@@ -55,7 +55,7 @@ namespace Balls.Source.Logic.GameBoard
         private readonly Grid _grid;
         private readonly IBallGenerator _ballGenerator = new RandomBallGenerator(3);
         private readonly IPathfinder _pathfinder = new Pathfinder(150);
-        private readonly ISolveDetector _solver = new LineDetector(3);
+        private readonly ISolveDetector _solveDetector = new LineDetector(3);
 
         public GameBoard(Grid grid)
         {
@@ -73,8 +73,7 @@ namespace Balls.Source.Logic.GameBoard
         {
             if (_grid.IsBallExist(fromPosition) == false)
                 return new MoveOperationResult(MoveResult.BallDoesNotExist);
-
-            Ball needMove = _grid[fromPosition];
+            
             Path path = _pathfinder.FindPath(fromPosition, toPosition, _grid);
 
             if (path.Failed == true)
@@ -82,26 +81,29 @@ namespace Balls.Source.Logic.GameBoard
 
             BallMovingResult ballMovingResult = null;
             
-            if (_grid.TryRemoveItem(fromPosition) == true)
-            {
-                if (_grid.TryPlaceBall(toPosition, needMove.Id, out Ball placedBall) == true)
-                    ballMovingResult = new BallMovingResult(path, placedBall);
-            }
-            
-            Ball[] detectedLines = _solver.Detect(toPosition, _grid);
+            if (_grid.TryReplaceBall(fromPosition, toPosition) == true) 
+                ballMovingResult = new BallMovingResult(path, _grid[toPosition]);
 
-            if (detectedLines.Length > 0)
-            {
-                foreach (Ball ball in detectedLines)
-                    _grid.TryRemoveItem(ball.Position);
-            }
-
-            List<Ball> balls = _ballGenerator.Generate(_grid);
+            Ball[] solvedBalls = Solve(toPosition);
+            List<Ball> generatedBalls = _ballGenerator.Generate(_grid);
 
             if (_grid.IsFilled() == true)
                 Filled?.Invoke();
 
-            return new MoveOperationResult(MoveResult.Success, balls, detectedLines, ballMovingResult);
+            return new MoveOperationResult(MoveResult.Success, generatedBalls, solvedBalls, ballMovingResult);
+        }
+
+        private Ball[] Solve(GridPosition position)
+        {
+            Ball[] solvedBalls = _solveDetector.Detect(position, _grid);
+
+            if (solvedBalls.Length <= 0) 
+                return solvedBalls;
+            
+            foreach (Ball ball in solvedBalls)
+                _grid.TryRemoveBall(ball.Position);
+
+            return solvedBalls;
         }
     }
 }

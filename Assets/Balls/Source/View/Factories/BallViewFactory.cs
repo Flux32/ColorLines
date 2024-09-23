@@ -1,5 +1,6 @@
 using System;
 using Balls.Source.Logic.GameBoard.Balls;
+using Balls.Source.View.GameBoard.Balls;
 using UnityEngine;
 
 namespace Balls.Source.View.Factories

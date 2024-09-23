@@ -7,6 +7,7 @@ using Reflex.Attributes;
 using Balls.Source.Core.Struct;
 using Balls.Source.Logic.GameBoard;
 using Balls.Source.Logic.GameBoard.Balls;
+using Balls.Source.View.GameBoard.Balls;
 using Balls.Source.View.GameBoard.Jobs;
 
 namespace Balls.Source.View.GameBoard
@@ -96,7 +97,7 @@ namespace Balls.Source.View.GameBoard
         private IViewJob[] CreateJobs(MoveOperationResult moveOperationResult)
         {
             IViewJob[] jobs = {
-                new MoveBallJob(moveOperationResult.MovedResult.Path, 10f, _ballViews),
+                new MoveBallJob(moveOperationResult.MovedResult.Path, _ballViews),
                 new SolveBallJob(moveOperationResult.SolvedBalls, _ballViews),
                 new SpawnBallJob(_ballFactory, _ballViews, moveOperationResult.BallsPlaced),
             };

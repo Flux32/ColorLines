@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using Balls.Source.Logic.GameBoard.Balls;
+using Balls.Source.View.GameBoard.Balls;
 using Cysharp.Threading.Tasks;
 
 namespace Balls.Source.View.GameBoard.Jobs

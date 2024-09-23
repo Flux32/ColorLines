@@ -1,4 +1,5 @@
 ﻿using Balls.Source.Logic.GameBoard.Balls;
+using Balls.Source.View.GameBoard.Balls;
 using UnityEngine;
 
 public interface IBallViewFactory
