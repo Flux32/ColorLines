@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Balls.Source.Core.Struct;
 using Balls.Source.Logic.GameBoard.Balls;
 using Balls.Source.Logic.GameBoard.Detectors;
+using Balls.Source.Logic.GameBoard.Generators;
 using Balls.Source.Logic.GameBoard.Pathfinding;
 
 namespace Balls.Source.Logic.GameBoard

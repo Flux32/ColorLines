@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Balls.Source.Logic.GameBoard.Balls;
 
-namespace Balls.Source.Logic.GameBoard
+namespace Balls.Source.Logic.GameBoard.Generators
 {
     public interface IBallGenerator
     {
