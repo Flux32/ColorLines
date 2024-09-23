@@ -26,6 +26,7 @@ namespace Balls.Source.View.GameBoard.Jobs
             {
                 animationTasks.Add(ballView.PlaySolveAnimation());
                 await UniTask.WaitForSeconds(0.1f, cancellationToken: cancellationToken);
+                _grid[ballView.CellPosition.X, ballView.CellPosition.Y] = null;
             }
             await UniTask.WhenAll(animationTasks).AttachExternalCancellation(cancellationToken);
         }

@@ -53,39 +53,46 @@ namespace Balls.Source.View.GameBoard
             _canSelect = false;
         }
         
-        public void Select(GridPosition position)
+        public async void Select(GridPosition position)
         {
             if (_canSelect == false)
                 return;
                 
             BallView ballView = _ballViews[position.X, position.Y];
-            
-            if (ballView == null)
-            {
-                if (_selectedBall != null)
-                {
-                    _selectedBall.Unselect();
-                    MoveOperationResult moveOperationResult = _gameBoard.MakeMove(_selectedBall.CellPosition, 
-                                                                                  position);
-                    _selectedBall = null;
 
-                    if (moveOperationResult.Result == MoveResult.Success)
-                        _jobExecutor.Execute(_cancellationTokenSource.Token, CreateJobs(moveOperationResult));
-                }
+            if (_selectedBall != null && _selectedBall == ballView)
+                return;
+            
+            if (ballView == null && _selectedBall != null)
+            { 
+                MoveOperationResult moveOperationResult = _gameBoard.MakeMove(_selectedBall.CellPosition, position);
+                UnselectBall();
+
+                if (moveOperationResult.Result != MoveResult.Success) 
+                    return;
+                
+                _canSelect = false;
+                await _jobExecutor.Execute(_cancellationTokenSource.Token, CreateJobs(moveOperationResult));
+                _canSelect = true;
 
                 return;
             }
 
-            if (ballView == _selectedBall)
-                return;
-
-            if (_selectedBall != null)
-                _selectedBall.Unselect();
+            UnselectBall();
 
             ballView.Select();
             _selectedBall = ballView;
         }
 
+        private void UnselectBall()
+        {
+            if (_selectedBall == null) 
+                return;
+            
+            _selectedBall.Unselect();
+            _selectedBall = null;
+        }
+        
         private IViewJob[] CreateJobs(MoveOperationResult moveOperationResult)
         {
             IViewJob[] jobs = {
