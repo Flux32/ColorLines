@@ -7,49 +7,6 @@ using Balls.Source.Logic.GameBoard.Pathfinding;
 
 namespace Balls.Source.Logic.GameBoard
 {
-    public sealed class MoveOperationResult
-    {
-        public MoveOperationResult(MoveResult result, 
-            IEnumerable<Ball> ballsPlaced, 
-            IEnumerable<Ball> solvedBalls, 
-            BallMovingResult movedResult)
-        {
-            Result = result;
-            BallsPlaced = ballsPlaced;
-            SolvedBalls = solvedBalls;
-            MovedResult = movedResult;
-        }
-
-        public MoveOperationResult(MoveResult result)
-        {
-            Result = result;
-        }
-        
-        public MoveResult Result { get; private set; }
-        public IEnumerable<Ball> BallsPlaced { get; private set; }
-        public IEnumerable<Ball> SolvedBalls { get; private set; }
-        public BallMovingResult MovedResult { get; private set; }
-    }
-
-    public enum MoveResult
-    {
-        BallDoesNotExist = 0,
-        PathFailed = 1,
-        Success = 2,
-    }
-    
-    public sealed class BallMovingResult
-    {
-        public BallMovingResult(Path path, Ball ball)
-        {
-            Path = path;
-            Ball = ball;
-        }
-
-        public Path Path { get; private set; }
-        public Ball Ball { get; private set; }
-    }
-    
     public sealed class GameBoard
     {
         private readonly Grid _grid;
@@ -85,7 +42,11 @@ namespace Balls.Source.Logic.GameBoard
                 ballMovingResult = new BallMovingResult(path, _grid[toPosition]);
 
             Ball[] solvedBalls = Solve(toPosition);
-            List<Ball> generatedBalls = _ballGenerator.Generate(_grid);
+
+            List<Ball> generatedBalls = new List<Ball>();
+            
+            if (solvedBalls.Length <= 0 || _grid.IsEmpty() == true)
+                generatedBalls = _ballGenerator.Generate(_grid);
 
             if (_grid.IsFilled() == true)
                 Filled?.Invoke();

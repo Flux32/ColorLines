@@ -11,14 +11,8 @@ namespace Balls.Source.Logic.GameBoard
 
         public Ball this[GridPosition position]
         { 
-            get 
-            { 
-                return _balls[position.X, position.Y];
-            }
-            private set
-            {
-                _balls[position.X, position.Y] = value;
-            }
+            get => _balls[position.X, position.Y];
+            private set => _balls[position.X, position.Y] = value;
         }
 
         public int SizeX => _balls.GetLength(0);
@@ -73,5 +67,7 @@ namespace Balls.Source.Logic.GameBoard
         {
             return IsBallExist(position) == false;
         }
+
+        public bool IsEmpty() => _fillAmount <= 0;
     }
 }
