@@ -2,25 +2,29 @@
 using System;
 using Balls.Source.Core.Struct;
 using Balls.Source.Infrastructure.Extensions;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class BallView : MonoBehaviour
 {
-    [SerializeField] private float _hintScale;
     [SerializeField] private SpriteRenderer _spriteRenderer;
-
-    private bool _selected;
-
-    private Sequence _jumpSequence;
+    
+    [Header("Animations")]
+    [SerializeField] private float _hintScale;
+    [SerializeField] private float _spawnAnimationDuration = 0.5f;
+    [SerializeField] private float _solveAnimationDuration = 0.3f;
+    
     private bool _animationStopRequested;
-
+    private Sequence _jumpSequence;
+    private bool _selected;
+    
     public GridPosition CellPosition { get; set; }
-
+    
     public void Initialize(Sprite ballSprite)
     {
         _spriteRenderer.sprite = ballSprite;
     }
-
+    
     public void Select()
     {
         if (_selected == true)
@@ -50,29 +54,24 @@ public class BallView : MonoBehaviour
         _animationStopRequested = true;
         _selected = false;
     }
-
-    public void UnselectWithoutAnimation()
+    
+    public void SetUnspawnedState()
     {
-        _jumpSequence?.Kill();
-    }    
-
-    public void SetHintState()
-    {
-        transform.localScale = Vector3.one * _hintScale;
+        transform.localScale = Vector3.zero;
     }
 
-    public void SetNormalState()
+    public async UniTask PlaySpawnAnimation()
     {
-        transform.localScale = Vector3.one;
+         await transform
+            .DOScale(Vector3.one, _spawnAnimationDuration)
+            .ToUniTask();
     }
 
-    public void PlayScaleToNormalSize()
+    public async UniTask PlaySolveAnimation()
     {
-    }
-
-    public void MoveToCellPosition()
-    {
-        transform.position = CellPosition.ToVector3();
+        await transform
+            .DOScale(Vector3.zero, _solveAnimationDuration)
+            .ToUniTask();
     }
 
     private void OnDestroy()

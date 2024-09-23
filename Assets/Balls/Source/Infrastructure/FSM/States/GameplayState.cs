@@ -1,7 +1,7 @@
 ﻿using Balls.Core.FSM;
 using UnityEngine;
 
-namespace Balls.Infrastructure.FSM.States
+namespace Balls.Infrastructure.Fsm.States
 {
     public sealed class GameplayState : SimpleState
     {

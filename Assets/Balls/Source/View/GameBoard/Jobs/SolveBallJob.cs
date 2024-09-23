@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading;
 using Balls.Source.Logic.GameBoard.Balls;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 
 namespace Balls.Source.View.GameBoard.Jobs
 {
@@ -21,15 +20,14 @@ namespace Balls.Source.View.GameBoard.Jobs
         public async UniTask Execute(CancellationToken cancellationToken)
         {
             BallView[] solvedViews = _balls.Select(ball => _grid[ball.Position.X, ball.Position.Y]).ToArray();
-        
-            foreach (var ballView in solvedViews)
+            List<UniTask> animationTasks = new List<UniTask>();
+            
+            foreach (BallView ballView in solvedViews)
             {
-                Debug.Log("aaa");
-                Debug.Log(ballView.gameObject.name, ballView.gameObject);
-                Object.Destroy(ballView.gameObject);
+                animationTasks.Add(ballView.PlaySolveAnimation());
+                await UniTask.WaitForSeconds(0.1f, cancellationToken: cancellationToken);
             }
-
-            await UniTask.WaitForSeconds(0.1f, cancellationToken: cancellationToken);
+            await UniTask.WhenAll(animationTasks).AttachExternalCancellation(cancellationToken);
         }
     }
 }

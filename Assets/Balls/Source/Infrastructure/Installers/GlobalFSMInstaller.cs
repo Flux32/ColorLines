@@ -1,8 +1,8 @@
 using Reflex.Core;
 using UnityEngine;
-using Balls.Infrastructure.Factories;
-using Balls.Infrastructure.FSM;
-using Balls.Infrastructure.FSM.States;
+using Balls.Infrastructure.Fsm;
+using Balls.Infrastructure.Fsm.States;
+using Balls.Source.Infrastructure.Factories;
 
 namespace Balls.Infrastructure.Installers
 {
@@ -36,7 +36,7 @@ namespace Balls.Infrastructure.Installers
         public void InstallFactories(ContainerBuilder containerBuilder)
         {
             containerBuilder
-                .AddSingletonInterfaces(typeof(GlobalFSMStateFactory));
+                .AddSingletonInterfaces(typeof(GlobalFsmStateFactory));
         }
 
         public void InstallStates(ContainerBuilder containerBuilder)

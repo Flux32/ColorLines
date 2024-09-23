@@ -4,7 +4,7 @@ using Balls.View.UI;
 using System;
 using System.Threading;
 
-namespace Balls.Infrastructure.FSM.States
+namespace Balls.Infrastructure.Fsm.States
 {
     public sealed class BootstrapState : SimpleState, IDisposable
     {

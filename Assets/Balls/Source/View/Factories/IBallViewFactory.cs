@@ -4,4 +4,5 @@ using UnityEngine;
 public interface IBallViewFactory
 {
     BallView CreateBall(BallId ballID, Vector3 position);
+    BallView CreateUnspawnedBall(BallId ballID, Vector3 position);
 }

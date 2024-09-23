@@ -2,28 +2,38 @@ using System;
 using Balls.Source.Logic.GameBoard.Balls;
 using UnityEngine;
 
-public class BallViewFactory : MonoBehaviour, IBallViewFactory
+namespace Balls.Source.View.Factories
 {
-    [SerializeField] private Sprite _purpleBall;
-    [SerializeField] private Sprite _greenBall;
-    [SerializeField] private Sprite _blueBall;
-    [SerializeField] private BallView _ballPrefab;
-
-    public BallView CreateBall(BallId ballID, Vector3 position)
+    public class BallViewFactory : MonoBehaviour, IBallViewFactory
     {
-        BallView ball = Instantiate(_ballPrefab);
+        [SerializeField] private Sprite _purpleBall;
+        [SerializeField] private Sprite _greenBall;
+        [SerializeField] private Sprite _blueBall;
+        [SerializeField] private BallView _ballPrefab;
 
-        Sprite ballSprite = ballID switch //TODO: remove
+        public BallView CreateBall(BallId ballID, Vector3 position)
         {
-            BallId.Purple => _purpleBall,
-            BallId.Green => _greenBall,
-            BallId.Blue => _blueBall,
-            _ => throw new InvalidOperationException($"The ball cannot be created. The sprite with ID: {ballID} is missing"),
-        };
+            BallView ball = Instantiate(_ballPrefab);
 
-        ball.Initialize(ballSprite);
-        ball.transform.position = position;
+            Sprite ballSprite = ballID switch //TODO: remove
+            {
+                BallId.Purple => _purpleBall,
+                BallId.Green => _greenBall,
+                BallId.Blue => _blueBall,
+                _ => throw new InvalidOperationException($"The ball cannot be created. The sprite with ID: {ballID} is missing"),
+            };
+
+            ball.Initialize(ballSprite);
+            ball.transform.position = position;
         
-        return ball;
+            return ball;
+        }
+
+        public BallView CreateUnspawnedBall(BallId ballID, Vector3 position)
+        {
+            BallView ballView = CreateBall(ballID, position);
+            ballView.SetUnspawnedState();
+            return ballView;
+        }
     }
 }

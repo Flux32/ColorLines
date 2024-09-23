@@ -1,15 +1,16 @@
 using Balls.Core.FSM;
-using Balls.Infrastructure.FSM.States;
 using System;
 using System.Collections.Generic;
+using Balls.Infrastructure.Fsm.States;
+using Balls.Source.Infrastructure.Factories;
 
-namespace Balls.Infrastructure.FSM
+namespace Balls.Infrastructure.Fsm
 {
     public sealed class GlobalFSM : Core.FSM.FSM //TODO: Rename
     {
-        private readonly IGlobalFSMStateFactory _stateFactory;
+        private readonly IGlobalFsmStateFactory _stateFactory;
 
-        public GlobalFSM(IGlobalFSMStateFactory stateFactory)
+        public GlobalFSM(IGlobalFsmStateFactory stateFactory)
         {
             _stateFactory = stateFactory;
         }

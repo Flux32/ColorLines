@@ -1,13 +1,13 @@
-using Balls.Infrastructure.FSM.States;
+using Balls.Infrastructure.Fsm.States;
 using Reflex.Core;
 
-namespace Balls.Infrastructure.Factories
+namespace Balls.Source.Infrastructure.Factories
 {
-    public sealed class GlobalFSMStateFactory : IGlobalFSMStateFactory
+    public sealed class GlobalFsmStateFactory : IGlobalFsmStateFactory
     {
         private readonly Container _container;
 
-        public GlobalFSMStateFactory(Container container)
+        public GlobalFsmStateFactory(Container container)
         {
             _container = container;
         }

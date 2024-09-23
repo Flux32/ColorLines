@@ -20,17 +20,21 @@ namespace Balls.Source.View.GameBoard.Jobs
             _balls = balls;
         }
 
-        public UniTask Execute(CancellationToken cancellationToken)
+        public async UniTask Execute(CancellationToken cancellationToken)
         {
+            List<UniTask> tasks = new List<UniTask>();
+            
             foreach (Ball ball in _balls)
             {
+                await UniTask.WaitForSeconds(0.1f, cancellationToken: cancellationToken);
                 Vector3 ballPosition = ball.Position.ToVector3();
-                BallView ballView = _ballFactory.CreateBall(ball.Id, ballPosition);
+                BallView ballView = _ballFactory.CreateUnspawnedBall(ball.Id, ballPosition);
                 ballView.CellPosition = ball.Position;
                 _ballsViewGrid[ball.Position.X, ball.Position.Y] = ballView;
+                tasks.Add(ballView.PlaySpawnAnimation());
             }
-        
-            return UniTask.CompletedTask;
+            
+            await UniTask.WhenAll(tasks).AttachExternalCancellation(cancellationToken);
         }
     }
 }
