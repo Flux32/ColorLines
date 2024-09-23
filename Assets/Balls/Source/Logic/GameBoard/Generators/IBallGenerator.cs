@@ -5,6 +5,6 @@ namespace Balls.Source.Logic.GameBoard.Generators
 {
     public interface IBallGenerator
     {
-        List<Ball> Generate(Grid gameBoard);
+        List<Ball> Generate(Grid grid);
     }
 }

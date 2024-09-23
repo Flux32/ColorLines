@@ -1,6 +1,8 @@
-using Balls.Core;
+using System.Collections;
+using System.Collections.Generic;
 using Balls.Source.Core.Struct;
 using Balls.Source.Logic.GameBoard.Balls;
+using UnityEngine;
 
 namespace Balls.Source.Logic.GameBoard
 {
@@ -20,6 +22,20 @@ namespace Balls.Source.Logic.GameBoard
 
         public bool IsFilled() => _fillAmount >= _balls.GetLength(0) * _balls.GetLength(1);
 
+        public IEnumerable<GridPosition> GetEmptyCells()
+        {
+            for (int x = 0; x < SizeX; x++)
+            {
+                for (int y = 0; y < SizeY; y++)
+                {
+                    GridPosition position = new GridPosition(x, y);
+                    
+                    if (this[position] == null)
+                        yield return position;
+                }
+            }
+        }
+        
         public bool IsBallExist(GridPosition position)
         {
             return IsCellExist(position) && this[position] != null;
@@ -35,6 +51,7 @@ namespace Balls.Source.Logic.GameBoard
 
         public bool TryPlaceBall(GridPosition position, BallId ballId, out Ball placedBall)
         {
+            Debug.Log("Place:" + position);
             placedBall = null;
 
             if (CanPlaceBall(position) == false)

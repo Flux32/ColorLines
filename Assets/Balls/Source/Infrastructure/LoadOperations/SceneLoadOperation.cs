@@ -1,9 +1,10 @@
-﻿using Cysharp.Threading.Tasks;
-using System;
+﻿using System;
+using Balls.Infrastructure.LoadOperations;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Balls.Infrastructure.LoadOperations
+namespace Balls.Source.Infrastructure.LoadOperations
 {
     public class SceneLoadOperation : ILoadOperation
     {
@@ -20,8 +21,6 @@ namespace Balls.Infrastructure.LoadOperations
 
         public async UniTask Load(Action<OperationID, float> progressChanged)
         {
-            Debug.Log("Niiice");
-
             AsyncOperation loadOperation = SceneManager.LoadSceneAsync(_sceneName);
             await loadOperation;
             loadOperation.allowSceneActivation = true;
