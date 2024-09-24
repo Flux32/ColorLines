@@ -7,7 +7,7 @@ namespace Balls.Source.View.GameBoard
 {
     public class JobExecutor : IJobExecutor
     {
-        public async UniTask Execute(CancellationToken cancellationToken, params IViewJob[] jobs)
+        public async UniTask Execute(CancellationToken cancellationToken = default, params IViewJob[] jobs)
         {
             foreach (IViewJob job in jobs)
                 await job.Execute(cancellationToken);

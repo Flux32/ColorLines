@@ -11,25 +11,30 @@ namespace Balls.Source.View.GameBoard.Jobs
     {
         private readonly BallView[,] _grid;
         private readonly IEnumerable<Ball> _balls;
-    
-        public SolveBallJob(IEnumerable<Ball> balls, BallView[,] grid)
+        private readonly IBallViewFactory _ballViewFactory;
+
+        public SolveBallJob(IEnumerable<Ball> balls, BallView[,] grid, IBallViewFactory ballViewFactory)
         {
             _balls = balls;
             _grid = grid;
+            _ballViewFactory = ballViewFactory;
         }
-    
+
         public async UniTask Execute(CancellationToken cancellationToken)
         {
-            BallView[] solvedViews = _balls.Select(ball => _grid[ball.Position.X, ball.Position.Y]).ToArray();
+            BallView[] solvedBallsViews = _balls.Select(ball => _grid[ball.Position.X, ball.Position.Y]).ToArray();
             List<UniTask> animationTasks = new List<UniTask>();
             
-            foreach (BallView ballView in solvedViews)
+            foreach (BallView ballView in solvedBallsViews)
             {
                 animationTasks.Add(ballView.PlaySolveAnimation());
                 await UniTask.WaitForSeconds(0.1f, cancellationToken: cancellationToken);
                 _grid[ballView.CellPosition.X, ballView.CellPosition.Y] = null;
             }
             await UniTask.WhenAll(animationTasks).AttachExternalCancellation(cancellationToken);
+
+            foreach (BallView ballView in solvedBallsViews)
+                _ballViewFactory.ReclaimBall(ballView);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Balls.Core.FSM
+﻿namespace Balls.Core.StateMachine
 {
     public class PayloadState<TValue> : IPayloadState<TValue>
     {

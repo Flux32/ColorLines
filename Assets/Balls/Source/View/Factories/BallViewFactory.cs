@@ -2,6 +2,7 @@ using System;
 using Balls.Source.Logic.GameBoard.Balls;
 using Balls.Source.View.GameBoard.Balls;
 using UnityEngine;
+using UnityEngine.Pool;
 
 namespace Balls.Source.View.Factories
 {
@@ -12,9 +13,16 @@ namespace Balls.Source.View.Factories
         [SerializeField] private Sprite _blueBall;
         [SerializeField] private BallView _ballPrefab;
 
+        private ObjectPool<BallView> _ballViewPool;
+
+        private void Awake()
+        {
+            _ballViewPool = new ObjectPool<BallView>(CreateBall);
+        }
+
         public BallView CreateBall(BallId ballID, Vector3 position)
         {
-            BallView ball = Instantiate(_ballPrefab);
+            BallView ball = _ballViewPool.Get();
 
             Sprite ballSprite = ballID switch //TODO: remove
             {
@@ -24,8 +32,9 @@ namespace Balls.Source.View.Factories
                 _ => throw new InvalidOperationException($"The ball cannot be created. The sprite with ID: {ballID} is missing"),
             };
 
-            ball.Initialize(ballSprite);
+            ball.SetBallSprite(ballSprite);
             ball.transform.position = position;
+            ball.gameObject.SetActive(true);
         
             return ball;
         }
@@ -36,5 +45,13 @@ namespace Balls.Source.View.Factories
             ballView.SetUnspawnedState();
             return ballView;
         }
+
+        public void ReclaimBall(BallView ballView)
+        {
+            ballView.gameObject.SetActive(false);
+            _ballViewPool.Release(ballView);
+        }
+
+        private BallView CreateBall() => Instantiate(_ballPrefab);
     }
 }

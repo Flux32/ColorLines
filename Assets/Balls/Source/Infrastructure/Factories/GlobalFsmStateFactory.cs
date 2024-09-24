@@ -1,4 +1,4 @@
-using Balls.Infrastructure.Fsm.States;
+using Balls.Infrastructure.StateMachine.States;
 using Reflex.Core;
 
 namespace Balls.Source.Infrastructure.Factories

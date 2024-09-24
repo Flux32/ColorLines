@@ -1,21 +1,21 @@
-using Balls.Core.FSM;
+using Balls.Core.StateMachine;
 using Balls.Infrastructure.LoadOperations;
 using Balls.View.UI;
 using System;
 using System.Threading;
 using Balls.Source.Infrastructure.LoadOperations;
 
-namespace Balls.Infrastructure.Fsm.States
+namespace Balls.Infrastructure.StateMachine.States
 {
     public sealed class BootstrapState : SimpleState, IDisposable
     {
         private readonly ILoadOperationService _loadOperationService;
         private readonly ILoadingCurtain _loadingCurtain;
-        private readonly GlobalFSM _fsm;
+        private readonly GlobalFsm _fsm;
 
         private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
-        public BootstrapState(ILoadOperationService loadOperationService, ILoadingCurtain loadingCurtain, GlobalFSM fsm)
+        public BootstrapState(ILoadOperationService loadOperationService, ILoadingCurtain loadingCurtain, GlobalFsm fsm)
         {
             _fsm = fsm;
             _loadOperationService = loadOperationService;

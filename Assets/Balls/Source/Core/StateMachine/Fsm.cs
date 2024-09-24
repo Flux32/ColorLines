@@ -2,9 +2,9 @@
 using System;
 using UnityEngine;
 
-namespace Balls.Core.FSM
+namespace Balls.Core.StateMachine
 {
-    public abstract class FSM : IFSM, IUpdatable
+    public abstract class Fsm : IFSM, IUpdatable
     {
         private Dictionary<Type, IState> _states;
 

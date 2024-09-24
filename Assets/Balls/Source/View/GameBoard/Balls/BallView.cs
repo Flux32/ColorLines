@@ -22,7 +22,7 @@ namespace Balls.Source.View.GameBoard.Balls
     
         public GridPosition CellPosition { get; set; }
     
-        public void Initialize(Sprite ballSprite)
+        public void SetBallSprite(Sprite ballSprite)
         {
             _spriteRenderer.sprite = ballSprite;
         }
