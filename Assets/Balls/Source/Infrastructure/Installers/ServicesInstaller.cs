@@ -1,4 +1,5 @@
 ﻿using Balls.Source.Infrastructure.Services.Audio;
+using Balls.Source.Infrastructure.Services.Log;
 using Reflex.Core;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -16,6 +17,7 @@ namespace Balls.Source.Infrastructure.Installers
             DontDestroyOnLoad(audioPlayService);
             
             containerBuilder
+                .AddSingletonInterfaces(typeof(LogService))
                 .AddSingletonInterfaces(typeof(LoadOperationService))
                 .AddSingleton(_audioMixer)
                 .AddSingletonInterfaces(audioPlayService)
