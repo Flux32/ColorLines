@@ -1,14 +1,25 @@
-﻿using Reflex.Core;
+﻿using Balls.Source.Infrastructure.Services.Audio;
+using Reflex.Core;
 using UnityEngine;
+using UnityEngine.Audio;
 
-namespace Balls.Infrastructure.Installers
+namespace Balls.Source.Infrastructure.Installers
 {
     public sealed class ServicesInstaller : MonoBehaviour, IInstaller
     {
+        [SerializeField] private AudioPlayService _audioPlayServicePrefab;
+        [SerializeField] private AudioMixer _audioMixer;
+        
         public void InstallBindings(ContainerBuilder containerBuilder)
         {
+            AudioPlayService audioPlayService = Instantiate(_audioPlayServicePrefab);
+            DontDestroyOnLoad(audioPlayService);
+            
             containerBuilder
-                .AddSingletonInterfaces(typeof(LoadOperationService));
+                .AddSingletonInterfaces(typeof(LoadOperationService))
+                .AddSingleton(_audioMixer)
+                .AddSingletonInterfaces(audioPlayService)
+                .AddSingletonInterfaces(typeof(AudioVolumeService));
         }
     }
 }

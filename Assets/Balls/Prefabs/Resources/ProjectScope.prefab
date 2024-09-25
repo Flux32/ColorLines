@@ -59,6 +59,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fa60769f69b03748a9ad7b18fe980e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _audioPlayServicePrefab: {fileID: 6279600817606638586, guid: 0e23346c3c71cfc44a8e7a7c63b91e1f, type: 3}
+  _audioMixer: {fileID: 24100000, guid: befc042ef229f9b4fb8e3d7ba3a37a79, type: 2}
 --- !u!114 &-558853972221360946
 MonoBehaviour:
   m_ObjectHideFlags: 0
