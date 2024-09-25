@@ -1,9 +1,8 @@
-﻿using Balls.Core;
-using Balls.Source.Core.Struct;
+﻿using Balls.Source.Core.Struct;
 
 namespace Balls.Source.Logic.GameBoard.Pathfinding
 {
-    public class Path
+    public sealed class Path
     {
         public Path(GridPosition[] points, bool failed)
         {
@@ -12,8 +11,7 @@ namespace Balls.Source.Logic.GameBoard.Pathfinding
         }
 
         public bool Failed { get; private set; }
-        public int Size => Points.Length - 1;
-        public GridPosition[] Points { get; private set; }
+        public GridPosition[] Points { get; }
 
         public GridPosition[] Directions
         {

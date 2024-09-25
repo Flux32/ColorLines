@@ -3,7 +3,7 @@ using UnityEngine.Audio;
 
 namespace Balls.Source.Infrastructure.Services.Audio
 {
-    public class SoundController
+    public sealed class SoundController
     {
         private const float LowerVolumeBound = -80.0f;
         private const float UpperVolumeBound = 0.0f;

@@ -8,7 +8,7 @@ using Random = System.Random;
 
 namespace Balls.Source.Logic.GameBoard.Generators
 {
-    public class RandomBallGenerator : IBallGenerator
+    public sealed class RandomBallGenerator : IBallGenerator
     {
         private readonly int _spawnBallsAmount;
 

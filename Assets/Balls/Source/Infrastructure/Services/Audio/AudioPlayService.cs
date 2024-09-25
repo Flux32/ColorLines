@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Balls.Source.Infrastructure.Services.Audio
 {
-    public class AudioPlayService : MonoBehaviour, IAudioPlayService
+    public sealed class AudioPlayService : MonoBehaviour, IAudioPlayService
     {
         [SerializeField] private AudioSource _soundSource;
         [SerializeField] private AudioSource _musicSource;

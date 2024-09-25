@@ -1,9 +1,8 @@
-﻿using Balls.Core;
-using Balls.Source.Core.Struct;
+﻿using Balls.Source.Core.Struct;
 
 namespace Balls.Source.Logic.GameBoard.Pathfinding
 {
-    public class PathNode
+    public sealed class PathNode
     {
         public readonly PathNode FromNode;
         public readonly GridPosition Position;

@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 namespace Balls.Source.Infrastructure.LoadOperations
 {
-    public class SceneLoadOperation : ILoadOperation
+    public sealed class SceneLoadOperation : ILoadOperation
     {
         private readonly string _sceneName;
 

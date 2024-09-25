@@ -3,7 +3,7 @@ using UnityEngine.Audio;
 
 namespace Balls.Source.Infrastructure.Services.Audio
 {
-    public class AudioVolumeService : IAudioVolumeService
+    public sealed class AudioVolumeService : IAudioVolumeService
     {
         private const string MasterVolumeMixerKey = "MasterVolume";
         private const string MusicVolumeMixerKey = "MusicVolume";

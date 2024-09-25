@@ -6,7 +6,7 @@ using UnityEngine.Pool;
 
 namespace Balls.Source.View.Factories
 {
-    public class BallViewFactory : MonoBehaviour, IBallViewFactory
+    public sealed class BallViewFactory : MonoBehaviour, IBallViewFactory
     {
         [SerializeField] private Sprite _purpleBall;
         [SerializeField] private Sprite _greenBall;

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Balls.Source.View.GameBoard.Balls.Animations
 {
-    public class BallMoveAnimator : IDisposable
+    public sealed class BallMoveAnimator : IDisposable
     {
         private readonly TweenSettings _moveSettings;
         private readonly Transform _transform;

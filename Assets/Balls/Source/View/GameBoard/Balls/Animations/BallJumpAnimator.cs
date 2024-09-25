@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Balls.Source.View.GameBoard.Balls.Animations
 {
-    public class BallJumpAnimator : IDisposable
+    public sealed class BallJumpAnimator : IDisposable
     {
         private readonly TweenSettings _tweenSettings;
         private readonly Transform _transform;

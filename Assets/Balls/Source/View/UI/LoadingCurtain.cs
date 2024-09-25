@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Balls.View.UI
 {
     [RequireComponent(typeof(CanvasGroup))]
-    public class LoadingCurtain : MonoBehaviour, ILoadingCurtain
+    public sealed class LoadingCurtain : MonoBehaviour, ILoadingCurtain
     {
         [SerializeField] private float _fadeDuration;
 

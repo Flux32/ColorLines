@@ -97,7 +97,7 @@ namespace Balls.Source.View.GameBoard
         {
             IViewJob[] jobs = {
                 new MoveBallJob(moveOperationResult.MovedResult.Path, _ballViews),
-                new SolveBallJob(moveOperationResult.SolvedBalls, _ballViews, _ballFactory),
+                new SolveBallJob(moveOperationResult.SolvedBallsAfterMove, _ballViews, _ballFactory),
                 new SpawnBallJob(_ballFactory, _ballViews, moveOperationResult.BallsPlaced),
             };
 

@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using Balls.Core;
 using Balls.Source.Core.Struct;
 using Balls.Source.Infrastructure.Extensions;
 using UnityEngine;
 
 namespace Balls.Source.Logic.GameBoard.Pathfinding
 {
-    public class Pathfinder : IPathfinder
+    public sealed class Pathfinder : IPathfinder
     {
         private readonly int _findOperationsLimit;
 

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using Balls.Source.Core.Struct;
 using Balls.Source.Logic.GameBoard.Balls;
@@ -6,7 +5,7 @@ using UnityEngine;
 
 namespace Balls.Source.Logic.GameBoard
 {
-    public class Grid
+    public sealed class Grid
     {
         private readonly Ball[,] _balls = new Ball[5, 5];
         private int _fillAmount;

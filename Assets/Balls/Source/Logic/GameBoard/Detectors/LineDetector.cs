@@ -6,7 +6,7 @@ using Balls.Source.Logic.GameBoard.Balls;
 
 namespace Balls.Source.Logic.GameBoard.Detectors
 {
-    public class LineDetector : ISolveDetector
+    public sealed class LineDetector : ISolveDetector
     {
         private readonly int _minLineSize;
 
