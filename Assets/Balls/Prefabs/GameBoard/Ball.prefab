@@ -145,10 +145,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 2714298757019498330}
-  _hintScale: 0.5
-  _spawnAnimationDuration: 0.4
-  _solveAnimationDuration: 1
-  _moveSpeed: 10
+  _spawnAnimationSettings:
+    _duration: 0.3
+    _ease: 1
+  _jumpAnimationSettings:
+    _duration: 0.3
+    _ease: 1
+  _moveAnimationSettings:
+    _duration: 10
+    _ease: 1
+  _solveAnimationSettings:
+    _duration: 0.4
+    _ease: 1
 --- !u!96 &6904718222755370672
 TrailRenderer:
   serializedVersion: 3

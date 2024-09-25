@@ -22,7 +22,7 @@ namespace Balls.Source.View.GameBoard.Jobs
         }
 
         public async UniTask Execute(CancellationToken cancellationToken)
-        {
+        {   
             List<UniTask> tasks = new List<UniTask>();
             
             foreach (Ball ball in _balls)
