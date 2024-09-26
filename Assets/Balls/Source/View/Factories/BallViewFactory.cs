@@ -1,6 +1,9 @@
 using System;
 using Balls.Source.Logic.GameBoard.Balls;
 using Balls.Source.View.GameBoard.Balls;
+using Reflex.Attributes;
+using Reflex.Core;
+using Reflex.Injectors;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -15,11 +18,19 @@ namespace Balls.Source.View.Factories
 
         private ObjectPool<BallView> _ballViewPool;
 
+        private Container _container;
+        
         private void Awake()
         {
             _ballViewPool = new ObjectPool<BallView>(CreateBall);
         }
 
+        [Inject]
+        private void Constructor(Container container)
+        {
+            _container = container;
+        }
+        
         public BallView CreateBall(BallId ballID, Vector3 position)
         {
             BallView ball = _ballViewPool.Get();
@@ -52,6 +63,12 @@ namespace Balls.Source.View.Factories
             _ballViewPool.Release(ballView);
         }
 
-        private BallView CreateBall() => Instantiate(_ballPrefab);
+        private BallView CreateBall()
+        {
+            BallView ballView = Instantiate(_ballPrefab);
+            GameObjectInjector.InjectObject(ballView.gameObject, _container);
+            return ballView;
+        }
+            
     }
 }

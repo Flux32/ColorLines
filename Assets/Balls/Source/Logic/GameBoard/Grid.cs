@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace Balls.Source.Logic.GameBoard
 {
-    public sealed class Grid
+    public sealed class Grid : IReadOnlyGrid
     {
-        private readonly Ball[,] _balls = new Ball[5, 5];
+        private readonly Ball[,] _balls;
         private int _fillAmount;
 
         public Ball this[GridPosition position]
@@ -16,16 +16,21 @@ namespace Balls.Source.Logic.GameBoard
             private set => _balls[position.X, position.Y] = value;
         }
 
-        public int SizeX => _balls.GetLength(0);
-        public int SizeY => _balls.GetLength(1);
+        public GridSize Size { get; private set; }
 
         public bool IsFilled() => _fillAmount >= _balls.GetLength(0) * _balls.GetLength(1);
 
+        public Grid(GridSize gridSize)
+        {
+            _balls = new Ball[gridSize.Width, gridSize.Height];
+            Size = gridSize;
+        }
+        
         public IEnumerable<GridPosition> GetEmptyCells()
         {
-            for (int x = 0; x < SizeX; x++)
+            for (int x = 0; x < Size.Width; x++)
             {
-                for (int y = 0; y < SizeY; y++)
+                for (int y = 0; y < Size.Height; y++)
                 {
                     GridPosition position = new GridPosition(x, y);
                     

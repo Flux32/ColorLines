@@ -15,7 +15,6 @@ public class GameBoardInstaller : MonoBehaviour, IInstaller
     public void InstallBindings(ContainerBuilder containerBuilder)
     {
         containerBuilder
-            .AddSingleton(typeof(Grid))
             .AddSingleton(typeof(CellPointerInput))
             .AddSingleton(_gameBoardView)
             .AddSingleton(typeof(GameBoard))

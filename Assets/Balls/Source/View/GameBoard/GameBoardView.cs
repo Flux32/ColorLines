@@ -13,17 +13,19 @@ namespace Balls.Source.View.GameBoard
 {
     public class GameBoardView : MonoBehaviour, IDisposable
     {
+        [SerializeField] private GridView _gridView;
+        
         private IBallViewFactory _ballFactory;
         private readonly IJobExecutor _jobExecutor = new JobExecutor();
         
         private Logic.GameBoard.GameBoard _gameBoard;
-
-        private BallView[,] _ballViews = new BallView[5,5];
-
+        
         private BallView _selectedBall;
         private bool _canSelect = true;
         
         private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+        
+        public IReadOnlyGridView Grid => _gridView;
         
         [Inject]
         private void Constructor(Logic.GameBoard.GameBoard gameBoard, IBallViewFactory ballViewFactory)
@@ -34,8 +36,10 @@ namespace Balls.Source.View.GameBoard
 
         private void Start()
         {
-            IEnumerable<Ball> placedBalls = _gameBoard.InitializeGame();
-            _jobExecutor.Execute(_cancellationTokenSource.Token, new SpawnBallJob(_ballFactory, _ballViews, placedBalls));
+            IEnumerable<Ball> placedBalls = _gameBoard.NewGame(new GridSize(9, 9));
+            GridSize size = _gameBoard.Grid.Size;
+            _gridView.CreateGrid(size);
+            _jobExecutor.Execute(_cancellationTokenSource.Token, new SpawnBallJob(_ballFactory, _gridView, placedBalls));
         }
 
         private void OnEnable()
@@ -58,7 +62,7 @@ namespace Balls.Source.View.GameBoard
             if (_canSelect == false)
                 return;
                 
-            BallView ballView = _ballViews[position.X, position.Y];
+            BallView ballView = _gridView[position];
 
             if (_selectedBall != null && _selectedBall == ballView)
                 return;
@@ -96,14 +100,14 @@ namespace Balls.Source.View.GameBoard
         private IViewJob[] CreateJobs(MoveOperationResult moveOperationResult)
         {
             IViewJob[] jobs = {
-                new MoveBallJob(moveOperationResult.MovedResult.Path, _ballViews),
-                new SolveBallJob(moveOperationResult.SolvedBallsAfterMove, _ballViews, _ballFactory),
-                new SpawnBallJob(_ballFactory, _ballViews, moveOperationResult.BallsPlaced),
+                new MoveBallJob(moveOperationResult.MovedResult.Path, _gridView),
+                new SolveBallJob(moveOperationResult.SolvedBallsAfterMove, _gridView, _ballFactory),
+                new SpawnBallJob(_ballFactory, _gridView, moveOperationResult.BallsPlaced),
             };
 
             return jobs;
         }
-
+        
         public void Dispose()
         {
             _cancellationTokenSource.Dispose();

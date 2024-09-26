@@ -10,9 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6514684450915433904}
   - component: {fileID: 2714298757019498330}
-  - component: {fileID: 2643934212088110579}
-  - component: {fileID: -3070926578075069533}
   - component: {fileID: 6904718222755370672}
+  - component: {fileID: -3070926578075069533}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -31,7 +30,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -87,76 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &2643934212088110579
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2458399155430037920}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.56666666, y: 0.56666666}
-    newSize: {x: 0.56666666, y: 0.56666666}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.56666666, y: 0.56666666}
-  m_EdgeRadius: 0
---- !u!114 &-3070926578075069533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2458399155430037920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59e41ad25182853479f09862319db8eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spriteRenderer: {fileID: 2714298757019498330}
-  _spawnAnimationSettings:
-    _duration: 0.3
-    _ease: 1
-  _jumpAnimationSettings:
-    _duration: 0.3
-    _ease: 1
-  _moveAnimationSettings:
-    _duration: 10
-    _ease: 1
-  _solveAnimationSettings:
-    _duration: 0.4
-    _ease: 1
 --- !u!96 &6904718222755370672
 TrailRenderer:
   serializedVersion: 3
@@ -270,3 +199,31 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
+--- !u!114 &-3070926578075069533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2458399155430037920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59e41ad25182853479f09862319db8eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 2714298757019498330}
+  _spawnAnimationSettings:
+    _spawnDuration: 0.5
+    _spawnEase: 1
+  _jumpAnimationSettings:
+    _jumpDuration: 0.3
+    _jumpEase: 1
+    _fallDuration: 0.2
+    _fallEase: 1
+    _jumpHeight: 0.1
+  _moveAnimationSettings:
+    _moveSpeed: 10
+    _moveEase: 1
+  _solveAnimationSettings:
+    _solveDuration: 0.2
+    _solveEase: 1

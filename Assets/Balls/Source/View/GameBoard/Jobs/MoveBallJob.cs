@@ -12,12 +12,12 @@ namespace Balls.Source.View.GameBoard.Jobs
     public sealed class MoveBallJob : IViewJob
     {
         private readonly Path _path;
-        private readonly BallView[,] _grid;
+        private readonly GridView _gridView;
 
-        public MoveBallJob(Path path, BallView[,] grid)
+        public MoveBallJob(Path path, GridView gridView)
         {
             _path = path;
-            _grid = grid;
+            _gridView = gridView;
         }
 
         public UniTask Execute(CancellationToken cancellationToken)
@@ -25,11 +25,11 @@ namespace Balls.Source.View.GameBoard.Jobs
             GridPosition endPosition = _path.Points.Last();
             GridPosition startPosition = _path.Points.First();
 
-            BallView ballView = _grid[startPosition.X, startPosition.Y];
-            _grid[startPosition.X, startPosition.Y] = null;
-            _grid[endPosition.X, endPosition.Y] = ballView;
+            BallView ballView = _gridView[startPosition];
+            _gridView[startPosition] = null;
+            _gridView[endPosition] = ballView;
             ballView.CellPosition = _path.Points.Last();
-            Vector3[] path = _path.Points.Select(position => position.ToVector3()).ToArray();
+            Vector3[] path = _path.Points.Select(position => _gridView.GridToWorldPosition(position)).ToArray();
 
             return ballView.Move(path, cancellationToken);
         }

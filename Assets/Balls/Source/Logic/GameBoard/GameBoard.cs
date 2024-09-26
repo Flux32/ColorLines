@@ -10,22 +10,24 @@ namespace Balls.Source.Logic.GameBoard
 {
     public sealed class GameBoard
     {
-        private readonly Grid _grid;
         private readonly IBallGenerator _ballGenerator = new RandomBallGenerator(3);
         private readonly IPathfinder _pathfinder = new Pathfinder(150);
-        private readonly ISolveDetector _solveDetector = new LineDetector(3);
+        private readonly ISolveDetector _solveDetector = new LineDetector(5);
 
-        public GameBoard(Grid grid)
-        {
-            _grid = grid;
-        }
+        private Grid _grid;
         
+        public event Action NewGameStarted;
         public event Action Filled;
 
-        public IEnumerable<Ball> InitializeGame()
+        public IReadOnlyGrid Grid => _grid;
+        
+        public IEnumerable<Ball> NewGame(GridSize gridSize)
         {
-            return _ballGenerator.Generate(_grid);
-        }
+            _grid = new Grid(gridSize);
+            IEnumerable<Ball> balls = _ballGenerator.Generate(_grid);
+            NewGameStarted?.Invoke();
+            return balls;
+;       }
 
         public MoveOperationResult MakeMove(GridPosition fromPosition, GridPosition toPosition)
         {

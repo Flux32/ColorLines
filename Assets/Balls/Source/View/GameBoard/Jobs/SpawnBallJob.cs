@@ -10,14 +10,14 @@ namespace Balls.Source.View.GameBoard.Jobs
 {
     public sealed class SpawnBallJob : IViewJob
     {
-        private readonly BallView[,] _ballsViewGrid;
+        private readonly GridView _gridView;
         private readonly IEnumerable<Ball> _balls;
         private readonly IBallViewFactory _ballFactory;
     
-        public SpawnBallJob(IBallViewFactory ballFactory, BallView[,] ballsViewGrid, IEnumerable<Ball> balls)
+        public SpawnBallJob(IBallViewFactory ballFactory, GridView gridView, IEnumerable<Ball> balls)
         {
             _ballFactory = ballFactory;
-            _ballsViewGrid = ballsViewGrid;
+            _gridView = gridView;
             _balls = balls;
         }
 
@@ -27,11 +27,10 @@ namespace Balls.Source.View.GameBoard.Jobs
             
             foreach (Ball ball in _balls)
             {
-                await UniTask.WaitForSeconds(0.1f, cancellationToken: cancellationToken);
-                Vector3 ballPosition = ball.Position.ToVector3();
+                Vector3 ballPosition = _gridView.GridToWorldPosition(ball.Position);
                 BallView ballView = _ballFactory.CreateUnspawnedBall(ball.Id, ballPosition);
                 ballView.CellPosition = ball.Position;
-                _ballsViewGrid[ball.Position.X, ball.Position.Y] = ballView;
+                _gridView[ball.Position] = ballView;
                 tasks.Add(ballView.PlaySpawnAnimation());
             }
             

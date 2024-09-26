@@ -1,19 +1,18 @@
 using Balls.Source.Core.Struct;
 using Reflex.Attributes;
 using UnityEngine;
-using Grid = Balls.Source.Logic.GameBoard.Grid;
 
 namespace Balls.Source.View.Debug
 {
     public sealed class MouseDebugger : MonoBehaviour
     {
-        private Grid _grid;
+        private Logic.GameBoard.GameBoard _gameBoard;
         private CellPointerInput _cellInput;
 
         [Inject]
-        private void Constructor(Grid grid, CellPointerInput cellInput)
+        private void Constructor(Logic.GameBoard.GameBoard gameBoard, CellPointerInput cellInput)
         {
-            _grid = grid;
+            _gameBoard = gameBoard;
             _cellInput = cellInput;
         }
 
@@ -21,10 +20,10 @@ namespace Balls.Source.View.Debug
         {
             if (Input.GetMouseButtonDown(1))
             {
-                GridPosition cellPosition = _cellInput.GetMouseCellPosition();
+             //   GridPosition cellPosition = _cellInput.GetMouseCellPosition();
 
-                UnityEngine.Debug.Log($"IsCellExist: {_grid.IsCellExist(cellPosition)}");
-                UnityEngine.Debug.Log($"IsBallExist: {_grid.IsBallExist(cellPosition)}");
+              //  UnityEngine.Debug.Log($"IsCellExist: {_gameBoard.Grid.IsCellExist(cellPosition)}");
+                //UnityEngine.Debug.Log($"IsBallExist: {_gameBoard.Grid.IsBallExist(cellPosition)}");
             }
         }
     }

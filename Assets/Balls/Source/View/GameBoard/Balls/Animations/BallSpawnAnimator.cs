@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using Balls.Source.Infrastructure.DOTween;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -9,24 +8,27 @@ namespace Balls.Source.View.GameBoard.Balls.Animations
 {
     public sealed class BallSpawnAnimator : IDisposable
     {
-        private readonly TweenSettings _spawnAnimationSettings;
-        private readonly Transform _transform;
-        
+        private readonly Transform _ballTransform;
+        private readonly BallSpawnAnimationSettings _animationSettings;
         private Tween _tween;
         
-        public BallSpawnAnimator(TweenSettings spawnAnimationSettings, Transform transform)
+        public BallSpawnAnimator(Transform ballTransform, BallSpawnAnimationSettings animationSettings)
         {
-            _spawnAnimationSettings = spawnAnimationSettings;
-            _transform = transform;
+            _ballTransform = ballTransform;
+            _animationSettings = animationSettings;
         }
+        
+        public event Action Spawned;
         
         public async UniTask PlaySpawn(CancellationToken cancellationToken = default)
         {
             _tween?.Kill();
 
-            _tween = _transform
-                .DOScale(Vector3.one, _spawnAnimationSettings.Duration)
-                .SetEase(_spawnAnimationSettings.Ease);
+            Spawned?.Invoke();
+            
+            _tween = _ballTransform
+                        .DOScale(Vector3.one, _animationSettings.SpawnDuration)
+                        .SetEase(_animationSettings.SpawnEase);
             
             await _tween.WithCancellation(cancellationToken);
         }

@@ -6,13 +6,11 @@ using UnityEngine;
 public class GameBoardInputRouter : MonoBehaviour
 {
     private CellPointerInput _cellInput;
-    private GameBoard _gameBoard;
     private GameBoardView _gameBoardView;
 
     [Inject]
-    private void Constructor(GameBoard gameBoard, GameBoardView gameBoardView, CellPointerInput cellInput)
+    private void Constructor(GameBoardView gameBoardView, CellPointerInput cellInput)
     {
-        _gameBoard = gameBoard;
         _gameBoardView = gameBoardView;
         _cellInput = cellInput;
     }
@@ -21,7 +19,7 @@ public class GameBoardInputRouter : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Mouse0) == true)
         {
-            _gameBoardView.Select(_cellInput.GetMouseCellPosition());
+            _gameBoardView.Select(_cellInput.GetMouseCellPosition(_gameBoardView.Grid.CellSize));
         }
     }
 }

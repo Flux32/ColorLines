@@ -1,5 +1,4 @@
 ﻿using System;
-using Balls.Source.Infrastructure.DOTween;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -8,18 +7,20 @@ namespace Balls.Source.View.GameBoard.Balls.Animations
 {
     public sealed class BallJumpAnimator : IDisposable
     {
-        private readonly TweenSettings _tweenSettings;
-        private readonly Transform _transform;
+        private readonly Transform _ballTransform;
+        private readonly BallJumpAnimationSettings _animationSettings;
         
         private bool _jumpStopRequested;
         private Tween _tween;
-
-        public BallJumpAnimator(TweenSettings tweenSettings, Transform transform)
+        
+        public BallJumpAnimator(Transform ballTransform, BallJumpAnimationSettings animationSettings)
         {
-            _tweenSettings = tweenSettings;
-            _transform = transform;
+            _ballTransform = ballTransform;
+            _animationSettings = animationSettings;
         }
-
+        
+        public event Action Landed;
+        
         public void StartJump()
         {
             _tween?.Kill();
@@ -29,8 +30,13 @@ namespace Balls.Source.View.GameBoard.Balls.Animations
             Sequence sequence = DOTween.Sequence();
 
             sequence
-                .Append(_transform.DOMove(new Vector3(0f, 0.1f), _tweenSettings.Duration / 2))
-                .Append(_transform.DOMove(new Vector3(0f, -0.1f), _tweenSettings.Duration / 2))
+                .Append(_ballTransform
+                            .DOMove(new Vector3(0f, _animationSettings.JumpHeight), _animationSettings.JumpDuration)
+                            .SetEase(_animationSettings.FallEase))
+                .Append(_ballTransform
+                            .DOMove(new Vector3(0f, -_animationSettings.JumpHeight), _animationSettings.FallDuration)
+                            .SetEase(_animationSettings.FallEase))
+                .AppendCallback(() => Landed?.Invoke())
                 .SetRelative()
                 .SetLoops(-1)
                 .OnStepComplete(() =>
@@ -48,7 +54,7 @@ namespace Balls.Source.View.GameBoard.Balls.Animations
             _jumpStopRequested = true;
             await UniTask.WaitUntil(() => _tween == null || _tween.IsActive() == false);
         }
-
+        
         public void Dispose()
         {
             _tween?.Kill();

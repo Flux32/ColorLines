@@ -1,6 +1,5 @@
 using System;
 using System.Threading;
-using Balls.Source.Infrastructure.DOTween;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -9,30 +8,30 @@ namespace Balls.Source.View.GameBoard.Balls.Animations
 {
     public sealed class BallMoveAnimator : IDisposable
     {
-        private readonly TweenSettings _moveSettings;
-        private readonly Transform _transform;
-
-        private Tween _tween;
+        private readonly Transform _ballTransform;
+        private readonly BallMoveAnimationSettings _animationSettings;
         
-        public BallMoveAnimator(TweenSettings moveSettings, Transform transform)
+        private Tween _tween;
+
+        public BallMoveAnimator(Transform ballTransform, BallMoveAnimationSettings animationSettings)
         {
-            _moveSettings = moveSettings;
-            _transform = transform;
+            _ballTransform = ballTransform;
+            _animationSettings = animationSettings;
         }
 
         public async UniTask PlayMove(Vector3[] path, CancellationToken cancellationToken = default)
         {
             _tween?.Kill();
             
-            _tween = _transform
-                        .DOPath(path, _moveSettings.Duration)
-                        .SetEase(_moveSettings.Ease)
+            _tween = _ballTransform
+                        .DOPath(path, _animationSettings.MoveSpeed)
+                        .SetEase(_animationSettings.MoveEase)
                         .SetSpeedBased();
             
             await _tween
                 .WithCancellation(cancellationToken);
         }
-
+        
         public void Dispose()
         {
             _tween?.Kill();

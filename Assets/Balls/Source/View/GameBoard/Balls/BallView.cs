@@ -1,23 +1,23 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using Balls.Source.Core.Struct;
-using Balls.Source.Infrastructure.DOTween;
 using Balls.Source.View.GameBoard.Balls.Animations;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Balls.Source.View.GameBoard.Balls
 {
-    [RequireComponent(typeof(SpriteRenderer))]
     public class BallView : MonoBehaviour
     {
-        private SpriteRenderer _spriteRenderer;
+        [SerializeField] private SpriteRenderer _spriteRenderer;
     
         [Header("Animations")]
-        [SerializeField] private TweenSettings _spawnAnimationSettings;
-        [SerializeField] private TweenSettings _jumpAnimationSettings;
-        [SerializeField] private TweenSettings _moveAnimationSettings;
-        [SerializeField] private TweenSettings _solveAnimationSettings;
+        [SerializeField] private BallSpawnAnimationSettings _spawnAnimationSettings;
+        [SerializeField] private BallJumpAnimationSettings _jumpAnimationSettings;
+        [SerializeField] private BallMoveAnimationSettings _moveAnimationSettings;
+        [SerializeField] private BallSolveAnimationSettings _solveAnimationSettings;
+    
+        [Header("Sounds")]
+        [SerializeField] private BallSoundsSettings _soundsSettings;
         
         private BallSpawnAnimator _spawnAnimator;
         private BallJumpAnimator _jumpAnimator;
@@ -30,13 +30,12 @@ namespace Balls.Source.View.GameBoard.Balls
 
         private void Awake()
         {
-            _spriteRenderer = GetComponent<SpriteRenderer>();
-            _spawnAnimator = new BallSpawnAnimator(_spawnAnimationSettings, transform);
-            _jumpAnimator = new BallJumpAnimator(_jumpAnimationSettings, transform);
-            _moveAnimator = new BallMoveAnimator(_moveAnimationSettings, transform);
-            _solveAnimator = new BallSolveAnimator(_solveAnimationSettings, transform);
+            _spawnAnimator = new BallSpawnAnimator(transform, _spawnAnimationSettings);
+            _jumpAnimator = new BallJumpAnimator(transform, _jumpAnimationSettings);
+            _moveAnimator = new BallMoveAnimator(transform, _moveAnimationSettings);
+            _solveAnimator = new BallSolveAnimator(transform, _solveAnimationSettings);
         }
-        
+
         public void SetBallSprite(Sprite ballSprite)
         {
             _spriteRenderer.sprite = ballSprite;
