@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Balls.Source.Core.Struct;
 using Balls.Source.Logic.GameBoard.Balls;
 using Balls.Source.Logic.GameBoard.Detectors;
@@ -51,10 +52,13 @@ namespace Balls.Source.Logic.GameBoard
             if (solvedBalls.Length <= 0 || _grid.IsEmpty() == true)
                 generatedBalls = _ballGenerator.Generate(_grid);
 
+            List<Ball[]> solvedBallsAfterGeneration = new List<Ball[]>(solvedBalls.Length);
+            solvedBallsAfterGeneration.AddRange(generatedBalls.Select(generatedBall => Solve(generatedBall.Position)));
+
             if (_grid.IsFilled() == true)
                 Filled?.Invoke();
 
-            return new MoveOperationResult(MoveResult.Success, generatedBalls, solvedBalls, ballMovingResult);
+            return new MoveOperationResult(MoveResult.Success, generatedBalls, solvedBalls, solvedBallsAfterGeneration, ballMovingResult);
         }
 
         private Ball[] Solve(GridPosition position)

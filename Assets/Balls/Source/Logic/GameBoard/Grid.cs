@@ -17,7 +17,6 @@ namespace Balls.Source.Logic.GameBoard
         }
 
         public GridSize Size { get; private set; }
-
         public bool IsFilled() => _fillAmount >= _balls.GetLength(0) * _balls.GetLength(1);
 
         public Grid(GridSize gridSize)

@@ -5,6 +5,6 @@ namespace Balls.Source.View.GameBoard.Jobs
 {
     public interface IViewJob
     {
-        public UniTask Execute(CancellationToken cancellationToken);
+        public UniTask Execute(CancellationToken cancellationToken = default);
     }
 }

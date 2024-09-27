@@ -7,12 +7,14 @@ namespace Balls.Source.Logic.GameBoard
     {
         public MoveOperationResult(MoveResult result, 
             IEnumerable<Ball> ballsPlaced, 
-            IEnumerable<Ball> solvedBallsAfterMove, 
+            IEnumerable<Ball> solvedBallsAfterMove,
+            IReadOnlyList<Ball[]> solvedBallsAfterGeneration,
             BallMovingResult movedResult)
         {
             Result = result;
             BallsPlaced = ballsPlaced;
             SolvedBallsAfterMove = solvedBallsAfterMove;
+            SolvedBallsAfterGeneration = solvedBallsAfterGeneration;
             MovedResult = movedResult;
         }
 
@@ -24,7 +26,7 @@ namespace Balls.Source.Logic.GameBoard
         public MoveResult Result { get; private set; }
         public IEnumerable<Ball> BallsPlaced { get; private set; }
         public IEnumerable<Ball> SolvedBallsAfterMove { get; private set; }
-        public IEnumerable<Ball> SolvedBallsAfterBallsPlaced { get; private set; }
+        public IReadOnlyList<Ball[]> SolvedBallsAfterGeneration { get; private set; }
         public BallMovingResult MovedResult { get; private set; }
     }
 }

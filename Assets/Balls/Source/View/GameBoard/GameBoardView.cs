@@ -99,10 +99,18 @@ namespace Balls.Source.View.GameBoard
         
         private IViewJob[] CreateJobs(MoveOperationResult moveOperationResult)
         {
+            IViewJob[] solveBallJobsAfterGenerate =
+                new IViewJob[moveOperationResult.SolvedBallsAfterGeneration.Count];
+
+            for (int i = 0; i < solveBallJobsAfterGenerate.Length; i++)
+                solveBallJobsAfterGenerate[i] = 
+                    new SolveBallJob(moveOperationResult.SolvedBallsAfterGeneration[i], _gridView, _ballFactory);
+            
             IViewJob[] jobs = {
                 new MoveBallJob(moveOperationResult.MovedResult.Path, _gridView),
                 new SolveBallJob(moveOperationResult.SolvedBallsAfterMove, _gridView, _ballFactory),
                 new SpawnBallJob(_ballFactory, _gridView, moveOperationResult.BallsPlaced),
+                new WhenAllJobsCompletedJob(solveBallJobsAfterGenerate),
             };
 
             return jobs;
