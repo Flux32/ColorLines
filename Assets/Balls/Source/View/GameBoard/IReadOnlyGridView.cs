@@ -8,6 +8,7 @@ namespace Balls.Source.View.GameBoard
     {
         public float CellSize { get; }
         public GridSize Size { get; }
+        public Bounds Bounds { get; }
         public Vector3 GridToWorldPosition(GridPosition gridPosition);
     }
 }

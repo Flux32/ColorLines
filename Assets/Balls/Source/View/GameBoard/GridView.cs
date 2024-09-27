@@ -43,6 +43,14 @@ namespace Balls.Source.View.GameBoard
             return new Vector3(gridPosition.X, gridPosition.Y) * _cellSize;
         }
 
+        public bool IsCellExist(GridPosition gridPosition)
+        {
+            return gridPosition.X >= 0 &&
+                   gridPosition.Y >= 0 &&
+                   gridPosition.X < Size.Width &&
+                   gridPosition.Y < Size.Height;
+        }
+        
         private Bounds CalculateBounds(GridSize gridSize)
         {
             Vector3 size = new Vector3(gridSize.Width * _cellSize, gridSize.Height * _cellSize);

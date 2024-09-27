@@ -1,12 +1,12 @@
-using Reflex.Core;
-using UnityEngine;
 using Balls.Infrastructure.StateMachine;
 using Balls.Infrastructure.StateMachine.States;
 using Balls.Source.Infrastructure.Factories;
+using Reflex.Core;
+using UnityEngine;
 
-namespace Balls.Infrastructure.Installers
+namespace Balls.Source.Infrastructure.Installers
 {
-    public sealed class GlobalFSMInstaller : MonoBehaviour, IInstaller
+    public sealed class GlobalFsmInstaller : MonoBehaviour, IInstaller
     {
         private Container _container;
 
@@ -14,7 +14,7 @@ namespace Balls.Infrastructure.Installers
         {
             InstallStates(containerBuilder);
             InstallFactories(containerBuilder);
-            InstallFSM(containerBuilder);
+            InstallFsm(containerBuilder);
 
             containerBuilder.OnContainerBuilt += OnContainerBuild;
         }
@@ -27,19 +27,19 @@ namespace Balls.Infrastructure.Installers
             fsm.Initialize<BootstrapState>();
         }
 
-        public void InstallFSM(ContainerBuilder containerBuilder)
+        private void InstallFsm(ContainerBuilder containerBuilder)
         {
             containerBuilder
                 .AddSingleton(typeof(GlobalFsm));
         }
 
-        public void InstallFactories(ContainerBuilder containerBuilder)
+        private void InstallFactories(ContainerBuilder containerBuilder)
         {
             containerBuilder
                 .AddSingletonInterfaces(typeof(GlobalFsmStateFactory));
         }
 
-        public void InstallStates(ContainerBuilder containerBuilder)
+        private void InstallStates(ContainerBuilder containerBuilder)
         {
             containerBuilder
                 .AddSingleton(typeof(BootstrapState))

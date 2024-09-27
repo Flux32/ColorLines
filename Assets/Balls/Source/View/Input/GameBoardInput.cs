@@ -1,9 +1,9 @@
-using Balls.Source.Logic.GameBoard;
+using Balls.Source.Core.Struct;
 using Balls.Source.View.GameBoard;
 using Reflex.Attributes;
 using UnityEngine;
 
-public class GameBoardInputRouter : MonoBehaviour
+public class GameBoardInput : MonoBehaviour
 {
     private CellPointerInput _cellInput;
     private GameBoardView _gameBoardView;
@@ -17,9 +17,11 @@ public class GameBoardInputRouter : MonoBehaviour
     
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) == true)
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            _gameBoardView.Select(_cellInput.GetMouseCellPosition(_gameBoardView.Grid.CellSize));
+            GridPosition gridPosition = _cellInput.GetMouseCellPosition(_gameBoardView.Grid.CellSize);
+            if (_gameBoardView.CanSelect(gridPosition))
+                _gameBoardView.Select(gridPosition);
         }
     }
 }

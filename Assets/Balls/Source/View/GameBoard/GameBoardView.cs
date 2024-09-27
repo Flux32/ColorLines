@@ -34,9 +34,9 @@ namespace Balls.Source.View.GameBoard
             _ballFactory = ballViewFactory;
         }
 
-        private void Start()
+        public void StartNewGame(GridSize gridSize)
         {
-            IEnumerable<Ball> placedBalls = _gameBoard.NewGame(new GridSize(9, 9));
+            IEnumerable<Ball> placedBalls = _gameBoard.NewGame(new GridSize(gridSize.Width, gridSize.Height));
             GridSize size = _gameBoard.Grid.Size;
             _gridView.CreateGrid(size);
             _jobExecutor.Execute(_cancellationTokenSource.Token, new SpawnBallJob(_ballFactory, _gridView, placedBalls));
@@ -55,6 +55,11 @@ namespace Balls.Source.View.GameBoard
         private void Filled()
         {
             _canSelect = false;
+        }
+
+        public bool CanSelect(GridPosition position)
+        {
+            return _gridView.IsCellExist(position) && _canSelect && _gridView[position] != null; 
         }
         
         public async void Select(GridPosition position)
