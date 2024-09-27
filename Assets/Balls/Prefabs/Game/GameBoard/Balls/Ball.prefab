@@ -213,16 +213,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 2714298757019498330}
   _spawnAnimationSettings:
-    _spawnDuration: 0.5
+    _spawnDuration: 0.3
     _spawnEase: 1
   _jumpAnimationSettings:
-    _jumpDuration: 0.3
+    _jumpDuration: 0.2
     _jumpEase: 1
-    _fallDuration: 0.2
+    _fallDuration: 0.1
     _fallEase: 1
     _jumpHeight: 0.1
   _moveAnimationSettings:
-    _moveSpeed: 10
+    _moveSpeed: 12
     _moveEase: 1
   _solveAnimationSettings:
     _solveDuration: 0.2
