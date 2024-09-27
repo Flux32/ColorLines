@@ -51,6 +51,11 @@ namespace Balls.Source.View.GameBoard
                    gridPosition.Y < Size.Height;
         }
         
+        public bool IsBallExist(GridPosition position)
+        {
+            return IsCellExist(position) && _balls[position.X, position.Y] != null;
+        }
+        
         private Bounds CalculateBounds(GridSize gridSize)
         {
             Vector3 size = new Vector3(gridSize.Width * _cellSize, gridSize.Height * _cellSize);

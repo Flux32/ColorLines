@@ -21,7 +21,7 @@ namespace Balls.Source.View.GameBoard
         private Logic.GameBoard.GameBoard _gameBoard;
         
         private BallView _selectedBall;
-        private bool _canSelect = true;
+        private SelectionState _selectionState = SelectionState.Empty;
         
         private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
         
@@ -54,51 +54,58 @@ namespace Balls.Source.View.GameBoard
 
         private void Filled()
         {
-            _canSelect = false;
+            _selectionState = SelectionState.Disabled;
         }
 
         public bool CanSelect(GridPosition position)
         {
-            return _gridView.IsCellExist(position) && _canSelect && _gridView[position] != null; 
+            return _selectionState == SelectionState.Empty && _gridView.IsBallExist(position) ||
+                   _selectionState == SelectionState.BallSelected && _gridView.IsCellExist(position);
         }
         
         public async void Select(GridPosition position)
         {
-            if (_canSelect == false)
+            if (_selectionState == SelectionState.Disabled)
                 return;
                 
             BallView ballView = _gridView[position];
 
-            if (_selectedBall != null && _selectedBall == ballView)
+            if (_selectionState == SelectionState.BallSelected && _selectedBall == ballView)
                 return;
             
-            if (ballView == null && _selectedBall != null)
+            if (ballView == null && _selectionState == SelectionState.BallSelected)
             { 
                 MoveOperationResult moveOperationResult = _gameBoard.MakeMove(_selectedBall.CellPosition, position);
-                UnselectBall();
+                UnselectBallIfSelected();
 
                 if (moveOperationResult.Result != MoveResult.Success) 
                     return;
                 
-                _canSelect = false;
+                _selectionState = SelectionState.Disabled;
                 await _jobExecutor.Execute(_cancellationTokenSource.Token, CreateJobs(moveOperationResult));
-                _canSelect = true;
+                _selectionState = SelectionState.Empty;
 
                 return;
             }
-
-            UnselectBall();
-
-            ballView.Select();
-            _selectedBall = ballView;
+            
+            SelectBall(ballView);
         }
 
-        private void UnselectBall()
+        private void SelectBall(BallView ballView)
         {
-            if (_selectedBall == null) 
+            UnselectBallIfSelected();
+            ballView.Select();
+            _selectionState = SelectionState.BallSelected;
+            _selectedBall = ballView;
+        }
+        
+        private void UnselectBallIfSelected()
+        {
+            if (_selectionState != SelectionState.BallSelected) 
                 return;
             
             _selectedBall.Unselect();
+            _selectionState = SelectionState.Empty;
             _selectedBall = null;
         }
         
