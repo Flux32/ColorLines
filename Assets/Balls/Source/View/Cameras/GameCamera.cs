@@ -27,13 +27,20 @@ namespace Balls.Source.View.Cameras
             _gameBoardCamera.transform.position = cameraCenter;
             
             Vector3 gameBoardSize = _gameBoardView.Grid.Bounds.size;
-            _gameBoardCamera.m_Lens.OrthographicSize = _orthoOffset + Mathf.Max(GetOrthoSizeByWidth(gameBoardSize.x), 
-                                                                                GetOrthoSizeByHeight(gameBoardSize.y));
+            _gameBoardCamera.m_Lens.OrthographicSize = _orthoOffset + GetOrthoSizeByWidthAndHeight(gameBoardSize.x, gameBoardSize.y);
         }
 
+        private float GetOrthoSizeByWidthAndHeight(float width, float height)
+        {
+            if (_camera.aspect >= 1)
+                return GetOrthoSizeByHeight(height);
+
+            return GetOrthoSizeByWidth(width);
+        }
+        
         private float GetOrthoSizeByWidth(float width)
         {
-            return _camera.aspect * width * 2;
+            return width / (2f * _camera.aspect);
         }
 
         private float GetOrthoSizeByHeight(float height)

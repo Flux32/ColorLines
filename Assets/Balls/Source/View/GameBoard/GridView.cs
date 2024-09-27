@@ -1,3 +1,4 @@
+using System;
 using Balls.Source.Core.Struct;
 using Balls.Source.Logic.GameBoard;
 using Balls.Source.View.GameBoard.Balls;
@@ -58,8 +59,16 @@ namespace Balls.Source.View.GameBoard
         
         private Bounds CalculateBounds(GridSize gridSize)
         {
-            Vector3 size = new Vector3(gridSize.Width * _cellSize, gridSize.Height * _cellSize);
-            return new Bounds(size / 2, size);
+            Vector3 size = new Vector3(gridSize.Width, gridSize.Height) * _cellSize;
+            float partCellSize = _cellSize / 2;
+            return new Bounds(size / 2 - new Vector3(partCellSize, partCellSize), size);
         }
+        
+        #if UNITY_EDITOR
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.DrawCube(Bounds.center, Bounds.size);
+        }
+        #endif
     }
 }
