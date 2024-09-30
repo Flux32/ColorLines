@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Balls.Source.Core.Struct;
-using Balls.Source.Logic.GameBoard.Balls;
 using UnityEngine;
 using Random = System.Random;
+using Balls.Source.Core.Struct;
+using Balls.Source.Logic.GameBoard.Balls;
+using Balls.Source.Logic.GameBoard.Operations;
 
 namespace Balls.Source.Logic.GameBoard.Generators
 {
@@ -17,7 +18,7 @@ namespace Balls.Source.Logic.GameBoard.Generators
             _spawnBallsAmount = spawnBallsAmount;
         }
 
-        public List<Ball> Generate(Grid grid)
+        public GenerationOperationResult Generate(Grid grid)
         {
             GridPosition[] randomPositions = GetRandomPositions(grid, _spawnBallsAmount);
             List<Ball> balls = new List<Ball>(randomPositions.Length);
@@ -29,7 +30,7 @@ namespace Balls.Source.Logic.GameBoard.Generators
                     balls.Add(placedBall);
             }
 
-            return balls;
+            return new GenerationOperationResult(balls.AsReadOnly());
         }
 
         private BallId GetRandomBallId()

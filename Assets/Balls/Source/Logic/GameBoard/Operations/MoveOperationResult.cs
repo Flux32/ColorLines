@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Balls.Source.Logic.GameBoard.Balls;
 
-namespace Balls.Source.Logic.GameBoard
+namespace Balls.Source.Logic.GameBoard.Operations
 {
     public sealed class MoveOperationResult
     {
         public MoveOperationResult(MoveResult result, 
-            IEnumerable<Ball> ballsPlaced, 
-            IEnumerable<Ball> solvedBallsAfterMove,
-            IReadOnlyList<Ball[]> solvedBallsAfterGeneration,
+            GenerationOperationResult generationOperationResult, 
+            SolveResult solvedBallsAfterMove,
+            ReadOnlyCollection<SolveResult> solvedBallsAfterGeneration,
             BallMovingResult movedResult)
         {
             Result = result;
-            BallsPlaced = ballsPlaced;
+            GenerationOperationResult = generationOperationResult;
             SolvedBallsAfterMove = solvedBallsAfterMove;
             SolvedBallsAfterGeneration = solvedBallsAfterGeneration;
             MovedResult = movedResult;
@@ -24,9 +25,9 @@ namespace Balls.Source.Logic.GameBoard
         }
         
         public MoveResult Result { get; private set; }
-        public IEnumerable<Ball> BallsPlaced { get; private set; }
-        public IEnumerable<Ball> SolvedBallsAfterMove { get; private set; }
-        public IReadOnlyList<Ball[]> SolvedBallsAfterGeneration { get; private set; }
+        public GenerationOperationResult GenerationOperationResult { get; private set; }
+        public SolveResult SolvedBallsAfterMove { get; private set; }
+        public ReadOnlyCollection<SolveResult> SolvedBallsAfterGeneration { get; private set; }
         public BallMovingResult MovedResult { get; private set; }
     }
 }

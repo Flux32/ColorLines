@@ -1,7 +1,7 @@
 ﻿using Balls.Source.Logic.GameBoard.Balls;
 using Balls.Source.Logic.GameBoard.Pathfinding;
 
-namespace Balls.Source.Logic.GameBoard
+namespace Balls.Source.Logic.GameBoard.Operations
 {
     public sealed class BallMovingResult
     {

@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Balls.Source.Core.Struct;
 using Balls.Source.Logic.GameBoard.Balls;
 using Balls.Source.Logic.GameBoard.Detectors;
 using Balls.Source.Logic.GameBoard.Generators;
+using Balls.Source.Logic.GameBoard.Operations;
 using Balls.Source.Logic.GameBoard.Pathfinding;
+using Balls.Source.Logic.GameBoard.Solvers;
+using Balls.Source.Logic.Score;
 
 namespace Balls.Source.Logic.GameBoard
 {
@@ -13,21 +17,25 @@ namespace Balls.Source.Logic.GameBoard
     {
         private readonly IBallGenerator _ballGenerator = new RandomBallGenerator(3);
         private readonly IPathfinder _pathfinder = new Pathfinder(150);
-        private readonly ISolveDetector _solveDetector = new LineDetector(5);
 
-        private Grid _grid;
+        private readonly ISolver _solver = new ClassicSolver(
+                                               new LineDetector(5), 
+                                               new ScoreCalculator(new ScoreSettings(1, 6)));
         
+        private Grid _grid;
+
+        public event Action<MoveOperationResult> Moved;
         public event Action NewGameStarted;
         public event Action Filled;
 
         public IReadOnlyGrid Grid => _grid;
         
-        public IEnumerable<Ball> NewGame(GridSize gridSize)
+        public GenerationOperationResult NewGame(GridSize gridSize)
         {
             _grid = new Grid(gridSize);
-            IEnumerable<Ball> balls = _ballGenerator.Generate(_grid);
+            GenerationOperationResult generationOperationResult = _ballGenerator.Generate(_grid);
             NewGameStarted?.Invoke();
-            return balls;
+            return generationOperationResult;
 ;       }
 
         public MoveOperationResult MakeMove(GridPosition fromPosition, GridPosition toPosition)
@@ -45,33 +53,28 @@ namespace Balls.Source.Logic.GameBoard
             if (_grid.TryReplaceBall(fromPosition, toPosition) == true) 
                 ballMovingResult = new BallMovingResult(path, _grid[toPosition]);
 
-            Ball[] solvedBalls = Solve(toPosition);
-
-            List<Ball> generatedBalls = new List<Ball>();
+            SolveResult solveResult = _solver.Solve(toPosition, _grid);
+            GenerationOperationResult generationOperationResult = new GenerationOperationResult();
             
-            if (solvedBalls.Length <= 0 || _grid.IsEmpty() == true)
-                generatedBalls = _ballGenerator.Generate(_grid);
+            if (solveResult.Balls.Count <= 0 || _grid.IsEmpty() == true)
+                generationOperationResult = _ballGenerator.Generate(_grid);
 
-            List<Ball[]> solvedBallsAfterGeneration = new List<Ball[]>(solvedBalls.Length);
-            solvedBallsAfterGeneration.AddRange(generatedBalls.Select(generatedBall => Solve(generatedBall.Position)));
+            List<SolveResult> solvedBallsAfterGeneration = new List<SolveResult>(solveResult.Balls.Count);
+            solvedBallsAfterGeneration.AddRange(generationOperationResult.SpawnedBalls
+                        .Select(generatedBall => _solver.Solve(generatedBall.Position, _grid)));
 
             if (_grid.IsFilled() == true)
                 Filled?.Invoke();
 
-            return new MoveOperationResult(MoveResult.Success, generatedBalls, solvedBalls, solvedBallsAfterGeneration, ballMovingResult);
-        }
-
-        private Ball[] Solve(GridPosition position)
-        {
-            Ball[] solvedBalls = _solveDetector.Detect(position, _grid);
-
-            if (solvedBalls.Length <= 0) 
-                return solvedBalls;
+            MoveOperationResult moveOperation =
+                new MoveOperationResult(MoveResult.Success, 
+                    generationOperationResult, 
+                    solveResult, 
+                    solvedBallsAfterGeneration.AsReadOnly(), 
+                    ballMovingResult);
             
-            foreach (Ball ball in solvedBalls)
-                _grid.TryRemoveBall(ball.Position);
-
-            return solvedBalls;
+            Moved?.Invoke(moveOperation);
+            return moveOperation;
         }
     }
 }

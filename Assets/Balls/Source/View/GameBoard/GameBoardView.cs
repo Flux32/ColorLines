@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading;
 using UnityEngine;
 using Reflex.Attributes;
 using Balls.Source.Core.Struct;
 using Balls.Source.Logic.GameBoard;
 using Balls.Source.Logic.GameBoard.Balls;
+using Balls.Source.Logic.GameBoard.Operations;
 using Balls.Source.View.GameBoard.Balls;
 using Balls.Source.View.GameBoard.Jobs;
 
@@ -34,12 +36,13 @@ namespace Balls.Source.View.GameBoard
             _ballFactory = ballViewFactory;
         }
 
-        public void StartNewGame(GridSize gridSize)
+        public void StartNewGame(GridSize size)
         {
-            IEnumerable<Ball> placedBalls = _gameBoard.NewGame(new GridSize(gridSize.Width, gridSize.Height));
-            GridSize size = _gameBoard.Grid.Size;
+            GenerationOperationResult generationResult = 
+                _gameBoard.NewGame(new GridSize(size.Width, size.Height));
+            
             _gridView.CreateGrid(size);
-            _jobExecutor.Execute(_cancellationTokenSource.Token, new SpawnBallJob(_ballFactory, _gridView, placedBalls));
+            _jobExecutor.Execute(_cancellationTokenSource.Token, new SpawnBallJob(_ballFactory, _gridView, generationResult.SpawnedBalls));
         }
 
         private void OnEnable()
@@ -121,7 +124,7 @@ namespace Balls.Source.View.GameBoard
             IViewJob[] jobs = {
                 new MoveBallJob(moveOperationResult.MovedResult.Path, _gridView),
                 new SolveBallJob(moveOperationResult.SolvedBallsAfterMove, _gridView, _ballFactory),
-                new SpawnBallJob(_ballFactory, _gridView, moveOperationResult.BallsPlaced),
+                new SpawnBallJob(_ballFactory, _gridView, moveOperationResult.GenerationOperationResult.SpawnedBalls),
                 new WhenAllJobsCompletedJob(solveBallJobsAfterGenerate),
             };
 

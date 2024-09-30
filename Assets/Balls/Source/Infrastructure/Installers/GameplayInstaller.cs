@@ -13,7 +13,7 @@ namespace Balls.Source.Infrastructure.Installers
         [SerializeField] private BallViewFactory _ballViewFactory;
         [SerializeField] private GameBoardView _gameBoardView;
         [SerializeField] private GameCamera _gameCamera;
-
+        
         public void InstallBindings(ContainerBuilder containerBuilder)
         {
             containerBuilder

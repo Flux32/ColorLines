@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using Balls.Source.Logic.GameBoard.Balls;
+﻿using Balls.Source.Logic.GameBoard.Operations;
 
 namespace Balls.Source.Logic.GameBoard.Generators
 {
     public interface IBallGenerator
     {
-        List<Ball> Generate(Grid grid);
+        GenerationOperationResult Generate(Grid grid);
     }
 }

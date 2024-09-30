@@ -6,7 +6,7 @@ using Balls.Source.Logic.GameBoard.Balls;
 
 namespace Balls.Source.Logic.GameBoard.Detectors
 {
-    public sealed class LineDetector : ISolveDetector
+    public sealed class LineDetector : IPatternDetector
     {
         private readonly int _minLineSize;
 
@@ -15,7 +15,7 @@ namespace Balls.Source.Logic.GameBoard.Detectors
             _minLineSize = minLineSize;
         }
 
-        public Ball[] Detect(GridPosition position, Grid grid)
+        public Ball[] Detect(GridPosition position, IReadOnlyGrid grid)
         {
             if (grid.IsBallExist(position) == false)
                 return Array.Empty<Ball>();
@@ -46,7 +46,7 @@ namespace Balls.Source.Logic.GameBoard.Detectors
         private HashSet<GridPosition> DetectByDirection(BallId targetColor,
             GridPosition position,
             GridPosition direction,
-            Grid grid)
+            IReadOnlyGrid grid)
         {
             GridPosition checkPosition = position;
 
