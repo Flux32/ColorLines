@@ -1,5 +1,6 @@
+using Balls.Source.Infrastructure.Repositories;
 using Balls.Source.Logic.GameBoard;
-using Balls.Source.Logic.GameBoard.Generators;
+using Balls.Source.Logic.Score;
 using Balls.Source.View.Cameras;
 using Balls.Source.View.Factories;
 using Balls.Source.View.GameBoard;
@@ -21,8 +22,9 @@ namespace Balls.Source.Infrastructure.Installers
                 .AddSingleton(_gameBoardView)
                 .AddSingleton(typeof(GameBoard))
                 .AddSingleton(_ballViewFactory, typeof(IBallViewFactory))
-                .AddSingleton(typeof(RandomBallGenerator))
-                .AddSingleton(_gameCamera);
+                .AddSingleton(_gameCamera)
+                .AddSingletonInterfaces(typeof(GameScore))
+                .AddSingletonInterfaces(typeof(BestScoreRepository));
         }
     }
 }

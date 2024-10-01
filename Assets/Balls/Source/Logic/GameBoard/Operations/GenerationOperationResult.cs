@@ -18,9 +18,4 @@ namespace Balls.Source.Logic.GameBoard.Operations
 
         public ReadOnlyCollection<Ball> SpawnedBalls { get; private set; }
     }
-
-    public sealed class SolveOperationResult
-    {
-        
-    }
 }

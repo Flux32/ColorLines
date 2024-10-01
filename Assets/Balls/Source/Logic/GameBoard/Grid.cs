@@ -54,7 +54,6 @@ namespace Balls.Source.Logic.GameBoard
 
         public bool TryPlaceBall(GridPosition position, BallId ballId, out Ball placedBall)
         {
-            Debug.Log("Place:" + position);
             placedBall = null;
 
             if (CanPlaceBall(position) == false)

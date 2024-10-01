@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6528893365083687969}
   - component: {fileID: 2762266315517017607}
   - component: {fileID: 3440686545967599933}
+  - component: {fileID: 4366302738180509616}
   m_Layer: 5
   m_Name: Label_BestScore
   m_TagString: Untagged
@@ -134,6 +135,25 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4366302738180509616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 181772818198394846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dc3211b5cbcaf34aa7420f6d17b5572, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _label: {fileID: 3440686545967599933}
+  _icon: {fileID: 0}
+  _duration: 0.5
+  _translateValue: 0
+  _format: Best score {0}
+  _animationScale: 1
+  _animationScaleDuration: 0
 --- !u!1 &611791911754625776
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,6 +165,7 @@ GameObject:
   - component: {fileID: 3480572480116350516}
   - component: {fileID: 3521833304280261797}
   - component: {fileID: 5225530499779924759}
+  - component: {fileID: 4860468856062974185}
   m_Layer: 5
   m_Name: Label_Score
   m_TagString: Untagged
@@ -268,6 +289,25 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4860468856062974185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 611791911754625776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dc3211b5cbcaf34aa7420f6d17b5572, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _label: {fileID: 5225530499779924759}
+  _icon: {fileID: 0}
+  _duration: 0.5
+  _translateValue: 0
+  _format: Score {0}
+  _animationScale: 1
+  _animationScaleDuration: 0
 --- !u!1 &5271296782043501969
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,6 +320,7 @@ GameObject:
   - component: {fileID: 5348390272013760534}
   - component: {fileID: 4738536550446625394}
   - component: {fileID: 346367988838599454}
+  - component: {fileID: 1581663480370159232}
   m_Layer: 5
   m_Name: Canvas_Hud
   m_TagString: Untagged
@@ -372,6 +413,20 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1581663480370159232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5271296782043501969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f2edf2778517214eb11c78210b549fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scoreIndicator: {fileID: 4860468856062974185}
+  _bestScoreIndicator: {fileID: 4366302738180509616}
 --- !u!1001 &148522234940854791
 PrefabInstance:
   m_ObjectHideFlags: 0

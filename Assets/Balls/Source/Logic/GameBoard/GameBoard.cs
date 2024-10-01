@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using Balls.Source.Core.Struct;
-using Balls.Source.Logic.GameBoard.Balls;
 using Balls.Source.Logic.GameBoard.Detectors;
 using Balls.Source.Logic.GameBoard.Generators;
 using Balls.Source.Logic.GameBoard.Operations;
@@ -17,10 +15,9 @@ namespace Balls.Source.Logic.GameBoard
     {
         private readonly IBallGenerator _ballGenerator = new RandomBallGenerator(3);
         private readonly IPathfinder _pathfinder = new Pathfinder(150);
-
         private readonly ISolver _solver = new ClassicSolver(
-                                               new LineDetector(5), 
-                                               new ScoreCalculator(new ScoreSettings(1, 6)));
+                                           new LineDetector(5), 
+                                           new ScoreCalculator(new ScoreSettings(1, 6)));
         
         private Grid _grid;
 
