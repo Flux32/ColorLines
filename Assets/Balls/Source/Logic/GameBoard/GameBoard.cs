@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Balls.Source.Core.Struct;
+using Balls.Source.Infrastructure.Factories;
 using Balls.Source.Logic.GameBoard.Detectors;
 using Balls.Source.Logic.GameBoard.Generators;
 using Balls.Source.Logic.GameBoard.Operations;
@@ -13,11 +14,11 @@ namespace Balls.Source.Logic.GameBoard
 {
     public sealed class GameBoard
     {
-        private readonly IBallGenerator _ballGenerator = new RandomBallGenerator(3);
-        private readonly IPathfinder _pathfinder = new Pathfinder(150);
-        private readonly ISolver _solver = new ClassicSolver(
-                                           new LineDetector(5), 
-                                           new ScoreCalculator(new ScoreSettings(1, 6)));
+        private IBallGenerator _ballGenerator;
+        private IPathfinder _pathfinder;
+        private ISolver _solver;
+
+        private readonly IGameBoardModulesFactory _modulesFactory;
         
         private Grid _grid;
 
@@ -26,10 +27,20 @@ namespace Balls.Source.Logic.GameBoard
         public event Action Filled;
 
         public IReadOnlyGrid Grid => _grid;
+
+        public GameBoard(IGameBoardModulesFactory modulesFactory)
+        {
+            _modulesFactory = modulesFactory;
+        }
         
         public GenerationOperationResult NewGame(GridSize gridSize)
         {
             _grid = new Grid(gridSize);
+
+            _ballGenerator = _modulesFactory.CreateBallGenerator();
+            _pathfinder = _modulesFactory.CreatePathfinder();
+            _solver = _modulesFactory.CreateSolver();
+            
             GenerationOperationResult generationOperationResult = _ballGenerator.Generate(_grid);
             NewGameStarted?.Invoke();
             return generationOperationResult;

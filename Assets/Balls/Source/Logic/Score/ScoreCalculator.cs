@@ -15,7 +15,7 @@ namespace Balls.Source.Logic.Score
         public SolveScore Calculate(ReadOnlyCollection<Ball> detectedBalls)
         {
             int scoreForBall = _scoreSettings.ScoreForBall;
-            int sumScore = detectedBalls.Count;
+            int sumScore = scoreForBall * detectedBalls.Count;
             return new SolveScore(scoreForBall, sumScore);
         }
     }

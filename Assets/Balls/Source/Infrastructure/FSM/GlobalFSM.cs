@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Balls.Infrastructure.StateMachine.States;
 using Balls.Source.Infrastructure.Factories;
+using Balls.Source.Infrastructure.FSM.States;
 
 namespace Balls.Infrastructure.StateMachine
 {

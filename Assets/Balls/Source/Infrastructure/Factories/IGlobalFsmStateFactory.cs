@@ -1,4 +1,5 @@
 ﻿using Balls.Infrastructure.StateMachine.States;
+using Balls.Source.Infrastructure.FSM.States;
 
 namespace Balls.Source.Infrastructure.Factories
 {

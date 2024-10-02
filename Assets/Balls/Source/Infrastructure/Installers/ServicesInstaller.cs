@@ -1,4 +1,5 @@
 ﻿using Balls.Source.Infrastructure.Services.Audio;
+using Balls.Source.Infrastructure.Services.Config;
 using Balls.Source.Infrastructure.Services.Log;
 using Reflex.Core;
 using UnityEngine;
@@ -15,13 +16,14 @@ namespace Balls.Source.Infrastructure.Installers
         {
             AudioPlayService audioPlayService = Instantiate(_audioPlayServicePrefab);
             DontDestroyOnLoad(audioPlayService);
-            
+
             containerBuilder
                 .AddSingletonInterfaces(typeof(LogService))
                 .AddSingletonInterfaces(typeof(LoadOperationService))
+                .AddSingletonInterfaces(typeof(AudioVolumeService))
+                .AddSingletonInterfaces(typeof(ConfigService))
                 .AddSingleton(_audioMixer)
-                .AddSingletonInterfaces(audioPlayService)
-                .AddSingletonInterfaces(typeof(AudioVolumeService));
+                .AddSingletonInterfaces(audioPlayService);
         }
     }
 }
