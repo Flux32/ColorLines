@@ -21,17 +21,17 @@ namespace Balls.Source.Logic.GameBoard
         private readonly IGameBoardModulesFactory _modulesFactory;
         
         private Grid _grid;
-
-        public event Action<MoveOperationResult> Moved;
-        public event Action NewGameStarted;
-        public event Action Filled;
-
-        public IReadOnlyGrid Grid => _grid;
-
+        
         public GameBoard(IGameBoardModulesFactory modulesFactory)
         {
             _modulesFactory = modulesFactory;
         }
+        
+        public event Action<MoveOperationResult> Moved;
+        public event Action NewGameStarted;
+        public event Action Filled;
+        
+        public IReadOnlyGrid Grid => _grid;
         
         public GenerationOperationResult NewGame(GridSize gridSize)
         {
