@@ -144,6 +144,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Indicator_Score
       objectReference: {fileID: 0}
+    - target: {fileID: 8534088545642285877, guid: f0bbbc8915898d74ead0b0122cece577, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

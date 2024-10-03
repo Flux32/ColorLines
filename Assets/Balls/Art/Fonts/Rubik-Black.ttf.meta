@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bf8858cc24ac5544cb31a1a53c24a21b
+guid: ee7a024fa964f844184c7b9422eeb66d
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Montserrat
+  - Rubik
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
