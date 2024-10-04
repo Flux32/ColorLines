@@ -3,7 +3,9 @@
     public enum BallId
     {
         Purple = 0,
-        Green = 1,
-        Blue = 2,
+        Red = 1,
+        Green = 2,
+        Blue = 3,
+        Yellow = 4,
     }
 }

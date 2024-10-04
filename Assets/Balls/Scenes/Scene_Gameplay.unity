@@ -359,6 +359,8 @@ MonoBehaviour:
   _purpleBall: {fileID: 21300000, guid: fcfcf9dbe0049ce48b48d0f961d1f09b, type: 3}
   _greenBall: {fileID: 21300000, guid: 20d9613d139a52348a54fd66cfaa36c2, type: 3}
   _blueBall: {fileID: 21300000, guid: 5a8d0be39cbcaaa468d20ae799d4b351, type: 3}
+  _yellowBall: {fileID: 21300000, guid: c81e62657a7a90642944812ef06c27d6, type: 3}
+  _redBall: {fileID: 21300000, guid: 238a01f943332db4d883e918774524f0, type: 3}
   _ballPrefab: {fileID: -3070926578075069533, guid: aca7c33093fdf2c49a392ba3c1edbfab, type: 3}
 --- !u!114 &1574903981 stripped
 MonoBehaviour:
@@ -631,6 +633,10 @@ PrefabInstance:
     - target: {fileID: 8512770503840180871, guid: 81767e88beb53a64dbf188204de6fad6, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8512770503840180871, guid: 81767e88beb53a64dbf188204de6fad6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -89.009766
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

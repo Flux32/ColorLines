@@ -11,9 +11,11 @@ namespace Balls.Source.View.Factories
 {
     public sealed class BallViewFactory : MonoBehaviour, IBallViewFactory
     {
-        [SerializeField] private Sprite _purpleBall;
+        [SerializeField] private Sprite _redBall;
         [SerializeField] private Sprite _greenBall;
         [SerializeField] private Sprite _blueBall;
+        [SerializeField] private Sprite _yellowBall;
+        [SerializeField] private Sprite _purpleBall;
         [SerializeField] private BallView _ballPrefab;
 
         private ObjectPool<BallView> _ballViewPool;
@@ -37,9 +39,11 @@ namespace Balls.Source.View.Factories
 
             Sprite ballSprite = ballID switch //TODO: remove
             {
-                BallId.Purple => _purpleBall,
+                BallId.Red => _redBall,
                 BallId.Green => _greenBall,
                 BallId.Blue => _blueBall,
+                BallId.Yellow => _yellowBall,
+                BallId.Purple => _purpleBall,
                 _ => throw new InvalidOperationException($"The ball cannot be created. The sprite with ID: {ballID} is missing"),
             };
 
