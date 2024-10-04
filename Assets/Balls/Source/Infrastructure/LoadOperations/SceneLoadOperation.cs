@@ -1,6 +1,7 @@
 ﻿using System;
 using Balls.Infrastructure.LoadOperations;
 using Balls.Source.Infrastructure.Services.Config;
+using Balls.Source.Infrastructure.Services.Level;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,12 +10,14 @@ namespace Balls.Source.Infrastructure.LoadOperations
 {
     public sealed class SceneLoadOperation : ILoadOperation
     {
-        private readonly string _sceneName;
-
-        public SceneLoadOperation(OperationID operationID, string sceneName)
+        private readonly ILevelService _levelService;
+        private readonly LevelId _levelId;
+        
+        public SceneLoadOperation(OperationID operationID, ILevelService levelService, LevelId levelId)
         {
+            _levelService = levelService;
             OperationID = operationID;
-            _sceneName = sceneName;
+            _levelId = levelId;
         }
 
         public OperationID OperationID { get; private set; }
@@ -22,9 +25,9 @@ namespace Balls.Source.Infrastructure.LoadOperations
 
         public async UniTask Load(Action<OperationID, float> progressChanged)
         {
-            AsyncOperation loadOperation = SceneManager.LoadSceneAsync(_sceneName);
-            await loadOperation;
-            loadOperation.allowSceneActivation = true;
+            progressChanged?.Invoke(OperationID.LoadScene, 0f);
+            await _levelService.LoadLevel(_levelId);
+            progressChanged?.Invoke(OperationID.LoadScene, 0f);
         }
     }
 

@@ -2,8 +2,8 @@
 {
     public enum OperationID : uint
     {
-        Delay,
-        LoadConfig,
-        LoadGameplayScene = 0,
+        LoadScene = 0,
+        Delay = 1,
+        LoadConfig = 2,
     }
 }
