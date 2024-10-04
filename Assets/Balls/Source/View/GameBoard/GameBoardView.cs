@@ -1,12 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Threading;
 using UnityEngine;
 using Reflex.Attributes;
 using Balls.Source.Core.Struct;
 using Balls.Source.Logic.GameBoard;
-using Balls.Source.Logic.GameBoard.Balls;
 using Balls.Source.Logic.GameBoard.Operations;
 using Balls.Source.View.GameBoard.Balls;
 using Balls.Source.View.GameBoard.Jobs;
@@ -15,6 +12,8 @@ namespace Balls.Source.View.GameBoard
 {
     public class GameBoardView : MonoBehaviour, IDisposable
     {
+        private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+        
         [SerializeField] private GridView _gridView;
         
         private IBallViewFactory _ballFactory;
@@ -25,8 +24,6 @@ namespace Balls.Source.View.GameBoard
         private BallView _selectedBall;
         private SelectionState _selectionState = SelectionState.Empty;
         
-        private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
-        
         public IReadOnlyGridView Grid => _gridView;
         
         [Inject]
@@ -36,28 +33,34 @@ namespace Balls.Source.View.GameBoard
             _ballFactory = ballViewFactory;
         }
 
+        private void OnEnable()
+        {
+            _gameBoard.Filled += Filled;
+        }
+
+        private void OnDisable()
+        {
+            _gameBoard.Filled -= Filled;
+        }
+        
         public void StartNewGame(GridSize size)
         {
             GenerationOperationResult generationResult = 
                 _gameBoard.NewGame(new GridSize(size.Width, size.Height));
             
             _gridView.CreateGrid(size);
-            _jobExecutor.Execute(_cancellationTokenSource.Token, new SpawnBallJob(_ballFactory, _gridView, generationResult.SpawnedBalls));
+            _jobExecutor.Execute(_cancellationTokenSource.Token, 
+                new SpawnBallJob(_ballFactory, _gridView, generationResult.SpawnedBalls));
         }
 
-        private void OnEnable()
+        public void RestartGame()
         {
-            _gameBoard.Filled += Filled;
-        }
-        
-        private void OnDisable()
-        {
-            _gameBoard.Filled -= Filled;
-        }
-
-        private void Filled()
-        {
-            _selectionState = SelectionState.Disabled;
+            GenerationOperationResult generationResult = 
+                _gameBoard.RestartGame();
+            
+            _jobExecutor.Execute(_cancellationTokenSource.Token, 
+                new ClearGridJob(_gridView, _ballFactory),
+                new SpawnBallJob(_ballFactory, _gridView, generationResult.SpawnedBalls));
         }
 
         public bool CanSelect(GridPosition position)
@@ -76,9 +79,12 @@ namespace Balls.Source.View.GameBoard
             if (_selectionState == SelectionState.BallSelected && _selectedBall == ballView)
                 return;
             
+            
             if (ballView == null && _selectionState == SelectionState.BallSelected)
             { 
                 MoveOperationResult moveOperationResult = _gameBoard.MakeMove(_selectedBall.CellPosition, position);
+                
+                UnityEngine.Debug.Log("MoveOpResult: " + moveOperationResult.Result);
                 UnselectBallIfSelected();
 
                 if (moveOperationResult.Result != MoveResult.Success) 
@@ -92,6 +98,11 @@ namespace Balls.Source.View.GameBoard
             }
             
             SelectBall(ballView);
+        }
+        
+        private void Filled()
+        {
+            _selectionState = SelectionState.Disabled;
         }
 
         private void SelectBall(BallView ballView)

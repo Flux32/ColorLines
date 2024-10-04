@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Balls.Source.Core.Struct;
 using Balls.Source.Infrastructure.Factories;
-using Balls.Source.Logic.GameBoard.Detectors;
 using Balls.Source.Logic.GameBoard.Generators;
 using Balls.Source.Logic.GameBoard.Operations;
 using Balls.Source.Logic.GameBoard.Pathfinding;
 using Balls.Source.Logic.GameBoard.Solvers;
-using Balls.Source.Logic.Score;
 
 namespace Balls.Source.Logic.GameBoard
 {
@@ -28,7 +26,6 @@ namespace Balls.Source.Logic.GameBoard
         }
         
         public event Action<MoveOperationResult> Moved;
-        public event Action NewGameStarted;
         public event Action Filled;
         
         public IReadOnlyGrid Grid => _grid;
@@ -42,10 +39,15 @@ namespace Balls.Source.Logic.GameBoard
             _solver = _modulesFactory.CreateSolver();
             
             GenerationOperationResult generationOperationResult = _ballGenerator.Generate(_grid);
-            NewGameStarted?.Invoke();
             return generationOperationResult;
-;       }
+        }
 
+        public GenerationOperationResult RestartGame()
+        {
+            _grid = new Grid(_grid.Size);
+            return _ballGenerator.Generate(_grid);
+        }
+        
         public MoveOperationResult MakeMove(GridPosition fromPosition, GridPosition toPosition)
         {
             if (_grid.IsBallExist(fromPosition) == false)
