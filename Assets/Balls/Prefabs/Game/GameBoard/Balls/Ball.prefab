@@ -222,7 +222,7 @@ MonoBehaviour:
     _fallEase: 1
     _jumpHeight: 0.1
   _moveAnimationSettings:
-    _moveSpeed: 12
+    _moveSpeed: 15
     _moveEase: 1
   _solveAnimationSettings:
     _solveDuration: 0.2
