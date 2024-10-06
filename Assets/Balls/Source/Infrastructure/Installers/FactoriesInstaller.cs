@@ -1,4 +1,5 @@
 ﻿using Balls.Source.Infrastructure.Factories;
+using Balls.Source.View.Factories;
 using Reflex.Core;
 using UnityEngine;
 
@@ -9,7 +10,8 @@ namespace Balls.Source.Infrastructure.Installers
         public void InstallBindings(ContainerBuilder containerBuilder)
         {
             containerBuilder
-                .AddSingletonInterfaces(typeof(GameBoardModulesFactory));
+                .AddSingletonInterfaces(typeof(GameBoardModulesFactory))
+                .AddSingletonInterfaces(typeof(JobFactory));
         }
     }
 }

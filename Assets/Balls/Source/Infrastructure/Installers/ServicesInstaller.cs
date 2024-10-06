@@ -26,8 +26,9 @@ namespace Balls.Source.Infrastructure.Installers
                 .AddSingletonInterfaces(typeof(ConfigService))
                 .AddSingletonInterfaces(typeof(LevelService))
                 .AddSingletonInterfaces(typeof(GameBoardInputService))
-                .AddSingleton(_audioMixer)
-                .AddSingletonInterfaces(audioPlayService);
+                .AddSingleton(typeof(PlayerInput))
+                .AddSingletonInterfaces(audioPlayService)
+                .AddSingleton(_audioMixer);
         }
     }
 }

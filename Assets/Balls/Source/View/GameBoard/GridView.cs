@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Balls.Source.View.GameBoard
 {
-    public class GridView : MonoBehaviour, IReadOnlyGridView
+    public sealed class GridView : MonoBehaviour, IReadOnlyGridView
     {
         [SerializeField] private SpriteRenderer _dotPrefab;
         [SerializeField] private float _cellSize = 0.8f;
