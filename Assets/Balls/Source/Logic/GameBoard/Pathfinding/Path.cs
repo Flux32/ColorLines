@@ -10,7 +10,7 @@ namespace Balls.Source.Logic.GameBoard.Pathfinding
             Failed = failed;
         }
 
-        public bool Failed { get; private set; }
+        public bool Failed { get; }
         public GridPosition[] Points { get; }
 
         public GridPosition[] Directions

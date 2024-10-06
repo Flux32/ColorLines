@@ -1,5 +1,6 @@
 ﻿using Balls.Source.Infrastructure.Services.Audio;
 using Balls.Source.Infrastructure.Services.Config;
+using Balls.Source.Infrastructure.Services.Input;
 using Balls.Source.Infrastructure.Services.Level;
 using Balls.Source.Infrastructure.Services.Log;
 using Reflex.Core;
@@ -24,6 +25,7 @@ namespace Balls.Source.Infrastructure.Installers
                 .AddSingletonInterfaces(typeof(AudioVolumeService))
                 .AddSingletonInterfaces(typeof(ConfigService))
                 .AddSingletonInterfaces(typeof(LevelService))
+                .AddSingletonInterfaces(typeof(GameBoardInputService))
                 .AddSingleton(_audioMixer)
                 .AddSingletonInterfaces(audioPlayService);
         }

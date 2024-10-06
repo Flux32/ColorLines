@@ -21,7 +21,7 @@ namespace Balls.Source.Infrastructure.Services.Config
     
     public class ConfigService : IConfigService
     {
-        private const string ConfigPath = "Configs/GameConfig"; 
+        private const string ConfigPath = "GameConfig"; 
         
         public GameBoardSettings GameBoardSettings { get; private set; }
         public ScoreSettings ScoreSettings { get; private set; }

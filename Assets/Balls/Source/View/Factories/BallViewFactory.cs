@@ -37,7 +37,7 @@ namespace Balls.Source.View.Factories
         {
             BallView ball = _ballViewPool.Get();
 
-            Sprite ballSprite = ballID switch //TODO: remove
+            Sprite ballSprite = ballID switch
             {
                 BallId.Red => _redBall,
                 BallId.Green => _greenBall,

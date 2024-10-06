@@ -1,4 +1,5 @@
 using Balls.Source.Core.Struct;
+using Balls.Source.View.GameBoard.Input;
 using Reflex.Attributes;
 using UnityEngine;
 
@@ -18,13 +19,13 @@ namespace Balls.Source.View.Debug
 
         private void Update()
         {
-            if (Input.GetMouseButtonDown(1))
-            {
+            //if (Input.GetMouseButtonDown(1))
+           // {
              //   GridPosition cellPosition = _cellInput.GetMouseCellPosition();
 
               //  UnityEngine.Debug.Log($"IsCellExist: {_gameBoard.Grid.IsCellExist(cellPosition)}");
                 //UnityEngine.Debug.Log($"IsBallExist: {_gameBoard.Grid.IsBallExist(cellPosition)}");
-            }
+           // }
         }
     }
 }

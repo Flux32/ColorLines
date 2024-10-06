@@ -84,7 +84,6 @@ namespace Balls.Source.View.GameBoard
             { 
                 MoveOperationResult moveOperationResult = _gameBoard.MakeMove(_selectedBall.CellPosition, position);
                 
-                UnityEngine.Debug.Log("MoveOpResult: " + moveOperationResult.Result);
                 UnselectBallIfSelected();
 
                 if (moveOperationResult.Result != MoveResult.Success) 

@@ -10,7 +10,7 @@ namespace Balls.Source.Logic.Score
             Score = score;
         }
 
-        public DateTime Date { get; private set; }
-        public int Score { get; private set; }
+        public DateTime Date { get; }
+        public int Score { get; }
     }
 }

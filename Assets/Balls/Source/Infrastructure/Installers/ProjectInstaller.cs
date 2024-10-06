@@ -18,6 +18,7 @@ namespace Balls.Source.Infrastructure.Installers
             DontDestroyOnLoad(mainCamera.gameObject);
             
             containerBuilder.AddSingleton(mainCamera);
+            containerBuilder.AddSingleton(typeof(PlayerInput));
         }
     }
 }

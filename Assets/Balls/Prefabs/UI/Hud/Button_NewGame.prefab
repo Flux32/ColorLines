@@ -133,4 +133,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _image: {fileID: 5665051651080232584}
-  _accentColor: {r: 0.2996079, g: 0.45490196, b: 0.74901974, a: 1}
+  _fadeDuration: 1
+  _accentColor: {r: 0.3019608, g: 0.45234916, b: 0.74901974, a: 255}

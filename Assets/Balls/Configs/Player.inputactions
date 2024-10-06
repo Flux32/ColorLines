@@ -1,0 +1,77 @@
+{
+    "name": "Player",
+    "maps": [
+        {
+            "name": "GameBoard",
+            "id": "12d32aab-4ca5-4a69-b6eb-cf6309cc1020",
+            "actions": [
+                {
+                    "name": "Cursor",
+                    "type": "Value",
+                    "id": "8359cf14-e512-4cfb-a082-31709c521f2d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "CursorPress",
+                    "type": "Button",
+                    "id": "831950c4-0e9a-4a83-b939-c5a8018ff22f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "d809a5a7-3eea-4bcf-80ae-571f7ae39537",
+                    "path": "<Pointer>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Mouse;Touchscreen",
+                    "action": "Cursor",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3f979350-7fe0-49d8-8f50-817be9883043",
+                    "path": "<Pointer>/press",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": ";Mouse;Touchscreen",
+                    "action": "CursorPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Mouse",
+            "bindingGroup": "Mouse",
+            "devices": [
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Touchscreen",
+            "bindingGroup": "Touchscreen",
+            "devices": [
+                {
+                    "devicePath": "<Touchscreen>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}
