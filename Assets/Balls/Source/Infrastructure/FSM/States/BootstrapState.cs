@@ -39,7 +39,8 @@ namespace Balls.Source.Infrastructure.FSM.States
         {
             _loadingCurtain.SetOpenedState();
 
-            await _loadOperationService.Load((opId, progress) => { },
+            await _loadOperationService.Load((opId, progress) => { }, 
+                new LoadBootstrapSceneIfNotExist(_levelService),
                 new ConfigLoadOperation(_configService),
                 new DelayOperation(2f),
                 new SceneLoadOperation(OperationID.LoadScene, _levelService, LevelId.Gameplay));

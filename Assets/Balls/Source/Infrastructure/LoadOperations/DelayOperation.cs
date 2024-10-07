@@ -13,7 +13,6 @@ namespace Balls.Infrastructure.LoadOperations
         }
 
         public OperationID OperationID => OperationID.Delay;
-        public float Progress { get; private set; }
 
         public async UniTask Load(Action<OperationID, float> progressChanged)
         {

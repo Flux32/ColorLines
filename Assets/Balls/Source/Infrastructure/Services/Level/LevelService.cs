@@ -8,7 +8,7 @@ namespace Balls.Source.Infrastructure.Services.Level
     {
         private const string BootstrapSceneName = "Scene_Bootstrap";
         private const string GameplaySceneName = "Scene_Gameplay";
-    
+        
         public async UniTask LoadLevel(LevelId levelId)
         {
             Scene scene = SceneManager.GetActiveScene();
@@ -17,10 +17,16 @@ namespace Balls.Source.Infrastructure.Services.Level
 
             if (levelId == LevelId.Bootstrap)
             {
-                if (IsBootstrapSceneExist() == true)
+                if (IsLevelExist(LevelId.Bootstrap))
                     throw new InvalidOperationException("Bootstrap is already exist");
+                
+                await SceneManager.LoadSceneAsync(targetSceneName, LoadSceneMode.Additive);
+                return;
             }
             
+            if (IsLevelExist(LevelId.Bootstrap) == false)
+                throw new InvalidOperationException($"Cannot load level {levelId} because {BootstrapSceneName} doesn't exist");
+                
             if (scene.name != BootstrapSceneName)
                 await SceneManager.UnloadSceneAsync(scene);
         
@@ -28,9 +34,9 @@ namespace Balls.Source.Infrastructure.Services.Level
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(targetSceneName));
         }
         
-        private bool IsBootstrapSceneExist()
+        public bool IsLevelExist(LevelId levelId)
         {
-            Scene bootstrapScene = SceneManager.GetSceneByName("Scene_Bootstrap");
+            Scene bootstrapScene = SceneManager.GetSceneByName(GetSceneNameByID(levelId));
 
             int sceneCount = SceneManager.sceneCount;
 
