@@ -1,38 +1,30 @@
-using System;
 using Balls.Source.Core.Struct;
 using Balls.Source.Logic.GameBoard;
-using Balls.Source.View.GameBoard.Balls;
 using UnityEngine;
 
 namespace Balls.Source.View.GameBoard
 {
     public sealed class GridView : MonoBehaviour, IReadOnlyGridView
     {
-        [SerializeField] private SpriteRenderer _dotPrefab;
+        [SerializeField] private CellBackground _cellBackgroundPrefab;
         [SerializeField] private float _cellSize = 0.8f;
         
-        private SpriteRenderer[,] _dots;
-        private BallView[,] _balls;
-
-        public BallView this[GridPosition position]
-        {
-            get => _balls[position.X, position.Y];
-            set => _balls[position.X, position.Y] = value;
-        }
-
+        private CellView[,] _cells;
+        
         public float CellSize => _cellSize;
         public Bounds Bounds { get; private set; } = new Bounds(Vector3.zero, Vector3.zero);
         public GridSize Size { get; private set;  } = new GridSize(0, 0);
-        
+
+        public CellView this[GridPosition position] => _cells[position.X, position.Y];
+
         public void CreateGrid(GridSize size)
         {
-            _dots = new SpriteRenderer[size.Width, size.Height];
-            _balls = new BallView[size.Width, size.Height];
+            _cells = new CellView[size.Width, size.Height];
             
             for (int x = 0; x < size.Width; x++)
             {
                 for (int y = 0; y < size.Height; y++)
-                    _dots[x, y] = Instantiate(_dotPrefab, new Vector3(x, y) * _cellSize, Quaternion.identity, transform);
+                    _cells[x, y] = new CellView(Instantiate(_cellBackgroundPrefab, new Vector3(x, y) * _cellSize, Quaternion.identity, transform));
             }
 
             Size = size;
@@ -49,12 +41,14 @@ namespace Balls.Source.View.GameBoard
             return gridPosition.X >= 0 &&
                    gridPosition.Y >= 0 &&
                    gridPosition.X < Size.Width &&
-                   gridPosition.Y < Size.Height;
+                   gridPosition.Y < Size.Height &&
+                   _cells[gridPosition.X, gridPosition.Y] != null ;
         }
         
         public bool IsBallExist(GridPosition position)
         {
-            return IsCellExist(position) && _balls[position.X, position.Y] != null;
+            return IsCellExist(position) 
+                   && _cells[position.X, position.Y].HasBall();
         }
         
         private Bounds CalculateBounds(GridSize gridSize)

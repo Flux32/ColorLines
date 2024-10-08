@@ -24,14 +24,14 @@ namespace Balls.Source.View.GameBoard.Jobs
 
         public async UniTask Execute(CancellationToken cancellationToken)
         {
-            BallView[] solvedBallsViews = _solve.Balls.Select(ball => _gridView[ball.Position]).ToArray();
+            BallView[] solvedBallsViews = _solve.Balls.Select(ball => _gridView[ball.Position].Ball).ToArray();
             List<UniTask> animationTasks = new List<UniTask>();
             
             foreach (BallView ballView in solvedBallsViews)
             {
                 animationTasks.Add(ballView.PlaySolveAnimation());
                 await UniTask.WaitForSeconds(0.1f, cancellationToken: cancellationToken);
-                _gridView[ballView.CellPosition] = null;
+                _gridView[ballView.CellPosition].DetachBall();
             }
             await UniTask.WhenAll(animationTasks).AttachExternalCancellation(cancellationToken);
 

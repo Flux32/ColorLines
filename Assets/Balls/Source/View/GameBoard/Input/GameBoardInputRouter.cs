@@ -10,6 +10,8 @@ namespace Balls.Source.View.GameBoard.Input
         private CellPointerInput _cellInput;
         private GameBoardView _gameBoardView;
         private IGameBoardInputService _inputService;
+
+        private GridPosition _cursorGridPosition = new GridPosition(-1, -1);
         
         [Inject]
         private void Constructor(
@@ -38,22 +40,24 @@ namespace Balls.Source.View.GameBoard.Input
         
         private void OnCursorPressed(Vector2 position)
         {
-            UnityEngine.Debug.Log($"OnCursorPressed: {position}");
+            _gameBoardView.Input(GameBoardInputAction.Press, _cursorGridPosition);
         }
 
         private void OnCursorReleased(Vector2 position)
         {
-            GridPosition gridPosition = _cellInput.GetMouseCellPosition(position, _gameBoardView.Grid.CellSize);
-            
-            if (_gameBoardView.CanSelect(gridPosition))
-                _gameBoardView.Select(gridPosition);
-            
-            UnityEngine.Debug.Log($"OnCursorReleased: {position}");
+            _gameBoardView.Input(GameBoardInputAction.Performed, _cursorGridPosition);
         }
         
         private void OnCursorMoved(Vector2 position)
         {
-
+            GridPosition gridPosition = _cellInput.GetMouseCellPosition(position, _gameBoardView.Grid.CellSize);
+            
+            if (gridPosition == _cursorGridPosition)
+                return;
+            
+            _gameBoardView.Input(GameBoardInputAction.None, _cursorGridPosition);
+            _gameBoardView.Input(GameBoardInputAction.Hold, gridPosition);
+            _cursorGridPosition = gridPosition; 
         }
     }
 }

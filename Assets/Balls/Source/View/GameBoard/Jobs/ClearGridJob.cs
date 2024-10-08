@@ -23,11 +23,11 @@ namespace Balls.Source.View.GameBoard.Jobs
                 {
                     GridPosition gridPosition = new GridPosition(x, y);
 
-                    if (_grid.IsBallExist(gridPosition) == true)
-                    {
-                        _ballViewFactory.ReclaimBall(_grid[gridPosition]);
-                        _grid[gridPosition] = null;
-                    }
+                    if (_grid.IsBallExist(gridPosition) == false)
+                        continue;
+                    
+                    _ballViewFactory.ReclaimBall(_grid[gridPosition].Ball);
+                    _grid[gridPosition].DetachBall();
                 }
             }
             return UniTask.CompletedTask;

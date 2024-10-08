@@ -2,6 +2,7 @@
 using Balls.Source.Core.Struct;
 using Balls.Source.View.GameBoard.Balls.Animations;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UnityEngine;
 
 namespace Balls.Source.View.GameBoard.Balls
@@ -27,7 +28,8 @@ namespace Balls.Source.View.GameBoard.Balls
         private bool _selected;
         
         public GridPosition CellPosition { get; set; }
-
+        public Color AccentColor { get; private set; }
+        
         private void Awake()
         {
             _spawnAnimator = new BallSpawnAnimator(transform, _spawnAnimationSettings);
@@ -36,9 +38,10 @@ namespace Balls.Source.View.GameBoard.Balls
             _solveAnimator = new BallSolveAnimator(transform, _solveAnimationSettings);
         }
 
-        public void SetBallSprite(Sprite ballSprite)
+        public void Initialize(Sprite ballSprite, Color accentColor)
         {
             _spriteRenderer.sprite = ballSprite;
+            AccentColor = accentColor;
         }
     
         public async UniTask Move(Vector3[] path, CancellationToken cancellationToken = default)
@@ -75,6 +78,16 @@ namespace Balls.Source.View.GameBoard.Balls
         public UniTask PlaySolveAnimation()
         {
             return _solveAnimator.PlaySolve();
+        }
+
+        public void TransitToHoldState()
+        {
+            transform.DOScale(1.1f, 0.3f);
+        }
+
+        public void TransitToNormalState()
+        {
+            transform.DOScale(1f, 0.3f);
         }
     }
 }

@@ -11,16 +11,23 @@ namespace Balls.Source.View.Factories
 {
     public sealed class BallViewFactory : MonoBehaviour, IBallViewFactory
     {
-        [SerializeField] private Sprite _redBall;
-        [SerializeField] private Sprite _greenBall;
-        [SerializeField] private Sprite _blueBall;
-        [SerializeField] private Sprite _yellowBall;
-        [SerializeField] private Sprite _purpleBall;
+        [SerializeField] private BallViewSettings _redBall;
+        [SerializeField] private BallViewSettings _greenBall;
+        [SerializeField] private BallViewSettings _blueBall;
+        [SerializeField] private BallViewSettings _yellowBall;
+        [SerializeField] private BallViewSettings _purpleBall;
         [SerializeField] private BallView _ballPrefab;
 
         private ObjectPool<BallView> _ballViewPool;
 
         private Container _container;
+        
+        [Serializable]
+        private struct BallViewSettings
+        {
+            public Sprite Sprite;
+            public Color AccentColor;
+        }
         
         private void Awake()
         {
@@ -37,7 +44,7 @@ namespace Balls.Source.View.Factories
         {
             BallView ball = _ballViewPool.Get();
 
-            Sprite ballSprite = ballID switch
+            BallViewSettings ballSettings = ballID switch
             {
                 BallId.Red => _redBall,
                 BallId.Green => _greenBall,
@@ -47,7 +54,7 @@ namespace Balls.Source.View.Factories
                 _ => throw new InvalidOperationException($"The ball cannot be created. The sprite with ID: {ballID} is missing"),
             };
 
-            ball.SetBallSprite(ballSprite);
+            ball.Initialize(ballSettings.Sprite, ballSettings.AccentColor);
             ball.transform.position = position;
             ball.gameObject.SetActive(true);
         

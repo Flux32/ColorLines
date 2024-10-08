@@ -31,7 +31,7 @@ namespace Balls.Source.View.GameBoard.Jobs
                 Vector3 ballPosition = _gridView.GridToWorldPosition(ball.Position);
                 BallView ballView = _ballFactory.CreateUnspawnedBall(ball.Id, ballPosition);
                 ballView.CellPosition = ball.Position;
-                _gridView[ball.Position] = ballView;
+                _gridView[ball.Position].AttachBall(ballView);
                 tasks.Add(ballView.PlaySpawnAnimation());
             }
             

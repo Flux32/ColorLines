@@ -25,9 +25,9 @@ namespace Balls.Source.View.GameBoard.Jobs
             GridPosition endPosition = _path.Points.Last();
             GridPosition startPosition = _path.Points.First();
 
-            BallView ballView = _gridView[startPosition];
-            _gridView[startPosition] = null;
-            _gridView[endPosition] = ballView;
+            BallView ballView = _gridView[startPosition].Ball;
+            _gridView[startPosition].DetachBall();
+            _gridView[endPosition].AttachBall(ballView);
             ballView.CellPosition = _path.Points.Last();
             Vector3[] path = _path.Points.Select(position => _gridView.GridToWorldPosition(position)).ToArray();
 
