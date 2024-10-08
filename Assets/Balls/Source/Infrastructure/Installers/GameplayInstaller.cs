@@ -1,4 +1,5 @@
-using Balls.Source.Infrastructure.Repositories;
+using Balls.Source.Infrastructure.Data.Repositories;
+using Balls.Source.Infrastructure.Data.Storages;
 using Balls.Source.Logic.GameBoard;
 using Balls.Source.Logic.Score;
 using Balls.Source.View.Cameras;
@@ -25,7 +26,8 @@ namespace Balls.Source.Infrastructure.Installers
                 .AddSingleton(_ballViewFactory, typeof(IBallViewFactory))
                 .AddSingleton(_gameCamera)
                 .AddSingletonInterfaces(typeof(GameScore))
-                .AddSingletonInterfaces(typeof(BestScoreRepository));
+                .AddSingletonInterfaces(typeof(BestScoreRepository))
+                .AddSingletonInterfaces(typeof(PlayerPrefsJsonStorage));
         }
     }
 }

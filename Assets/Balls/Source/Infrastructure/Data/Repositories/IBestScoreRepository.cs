@@ -1,10 +1,11 @@
 using Balls.Source.Logic.Score;
+using Cysharp.Threading.Tasks;
 
-namespace Balls.Source.Infrastructure.Repositories
+namespace Balls.Source.Infrastructure.Data.Repositories
 {
     public interface IBestScoreRepository
     {
-        public void Set(BestScore score);
-        public BestScore Get();
+        public UniTask Set(BestScore score);
+        public UniTask<BestScore> Get();
     }
 }

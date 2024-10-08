@@ -1,5 +1,5 @@
 using System;
-using Balls.Source.Infrastructure.Repositories;
+using Balls.Source.Infrastructure.Data.Repositories;
 using Balls.Source.Logic.GameBoard.Operations;
 
 namespace Balls.Source.Logic.Score
@@ -40,7 +40,7 @@ namespace Balls.Source.Logic.Score
             CurrentScore += score;
             ScoreChanged?.Invoke(CurrentScore);
 
-            if (BestScore.Score >= CurrentScore) 
+            if (BestScore.Value >= CurrentScore) 
                 return;
             
             BestScore = new BestScore(DateTime.Now, CurrentScore);

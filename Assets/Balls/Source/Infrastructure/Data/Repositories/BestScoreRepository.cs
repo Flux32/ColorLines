@@ -1,22 +1,40 @@
-using Balls.Source.Infrastructure.Storages;
+using Balls.Source.Infrastructure.Data.Entities;
+using Balls.Source.Infrastructure.Data.Storages;
 using Balls.Source.Logic.Score;
+using Cysharp.Threading.Tasks;
 
-namespace Balls.Source.Infrastructure.Repositories
+namespace Balls.Source.Infrastructure.Data.Repositories
 {
     public class BestScoreRepository : IBestScoreRepository 
     {
         private const string BestScoreKey = "BestScore";
 
-        private readonly PlayerPrefsJsonStorage _playerPrefsJsonStorage = new PlayerPrefsJsonStorage();
-        
-        public void Set(BestScore score)
+        private readonly IDataStorage _dataStorage;
+
+        public BestScoreRepository(IDataStorage dataStorage)
         {
-            _playerPrefsJsonStorage.Save(BestScoreKey, score);
+            _dataStorage = dataStorage;
+        }
+        
+        public UniTask Set(BestScore score)
+        {
+            return _dataStorage.Save(BestScoreKey, Map(score));
         }
 
-        public BestScore Get()
+        public async UniTask<BestScore> Get()
         {
-            return _playerPrefsJsonStorage.Load<BestScore>(BestScoreKey);
+            BestScoreEntity score = await _dataStorage.Load<BestScoreEntity>(BestScoreKey);
+            return Map(score);
+        }
+
+        private BestScoreEntity Map(BestScore bestScore)
+        {
+            return new BestScoreEntity() { Value = bestScore.Value, Date  = bestScore.Date };
+        }
+
+        private BestScore Map(BestScoreEntity bestScoreEntity)
+        {
+            return new BestScore(bestScoreEntity.Date, bestScoreEntity.Value);
         }
     }
 }

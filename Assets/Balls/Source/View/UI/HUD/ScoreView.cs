@@ -25,7 +25,7 @@ namespace Balls.Source.View.UI.HUD
           private void OnBestScoreChanged(BestScore bestScore)
           {
                _bestScoreIndicator
-                    .SetValue(bestScore.Score)
+                    .SetValue(bestScore.Value)
                     .Forget();
           }
 

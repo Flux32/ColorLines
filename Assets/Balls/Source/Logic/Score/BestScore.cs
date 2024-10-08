@@ -4,13 +4,13 @@ namespace Balls.Source.Logic.Score
 {
     public class BestScore
     {
-        public BestScore(DateTime date, int score)
+        public BestScore(DateTime date, int value)
         {
             Date = date;
-            Score = score;
+            Value = value;
         }
 
         public DateTime Date { get; }
-        public int Score { get; }
+        public int Value { get; }
     }
 }
