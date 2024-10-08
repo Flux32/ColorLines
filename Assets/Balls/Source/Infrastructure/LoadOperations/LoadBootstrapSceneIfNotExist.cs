@@ -19,7 +19,10 @@ namespace Balls.Source.Infrastructure.LoadOperations
         public async UniTask Load(Action<OperationID, float> progressChanged)
         {
             progressChanged.Invoke(OperationID.LoadConfig, 0f);
-            await _levelService.LoadLevel(LevelId.Bootstrap);
+            
+            if (_levelService.IsLevelExist(LevelId.Bootstrap) == false)
+                await _levelService.LoadLevel(LevelId.Bootstrap);
+
             progressChanged.Invoke(OperationID.LoadConfig, 1f);
         }
     }
