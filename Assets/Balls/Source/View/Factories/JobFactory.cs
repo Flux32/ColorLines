@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Balls.Source.View.Factories
 {
-    public sealed class JobFactory : MonoBehaviour, IJobFactory
+    public sealed class JobFactory : IJobFactory
     {
         private readonly IBallViewFactory _ballViewFactory;
 
