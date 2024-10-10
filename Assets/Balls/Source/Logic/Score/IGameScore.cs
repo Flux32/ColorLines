@@ -6,6 +6,8 @@ namespace Balls.Source.Logic.Score
     {
         event Action<int> ScoreChanged;
         event Action<BestScore> BestScoreChanged;
+        event Action<int, BestScore> ScoreInitialized;
+
         BestScore BestScore { get; }
         int CurrentScore { get; }
     }

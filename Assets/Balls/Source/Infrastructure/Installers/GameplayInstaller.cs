@@ -25,7 +25,7 @@ namespace Balls.Source.Infrastructure.Installers
                 .AddSingleton(typeof(GameBoard))
                 .AddSingleton(_ballViewFactory, typeof(IBallViewFactory))
                 .AddSingleton(_gameCamera)
-                .AddSingletonInterfaces(typeof(GameScore))
+                .AddSingletonSelfAndInterfaces(typeof(GameScore))
                 .AddSingletonInterfaces(typeof(BestScoreRepository))
                 .AddSingletonInterfaces(typeof(PlayerPrefsJsonStorage));
         }
