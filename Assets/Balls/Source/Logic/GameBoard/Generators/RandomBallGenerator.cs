@@ -45,7 +45,6 @@ namespace Balls.Source.Logic.GameBoard.Generators
         {
             List<GridPosition> emptyCellsPositions = gameBoard.GetEmptyCells().ToList();
             
-            Debug.Log("EmptyCellsPositionAmount" + emptyCellsPositions.Count);
             int needPlaceAmount = Math.Clamp(emptyCellsPositions.Count, 0, maxAmount);
             
             GridPosition[] randomPositions = new GridPosition[needPlaceAmount];

@@ -10,21 +10,43 @@ namespace Balls.Source.View.States
         [SerializeField] private Button _restartButton;
         
         private GameBoardView _gameBoardView;
+        private IInterstitialAdService _interstitialAdService;
 
         [Inject]
-        private void Constructor(GameBoardView gameBoardView)
+        private void Constructor(GameBoardView gameBoardView, IInterstitialAdService interstitialAdService)
         {
             _gameBoardView = gameBoardView;
+            _interstitialAdService = interstitialAdService;
         }
         
         private void OnEnable()
         {
-            _restartButton.onClick.AddListener(_gameBoardView.RestartGame);
+            _restartButton.onClick.AddListener(OnRestartButtonClicked);
+
+            _interstitialAdService.Closed += OnInterstitialClosed;
+            _interstitialAdService.Error += OnInterstitialError;
         }
 
         private void OnDisable()
         {
-            _restartButton.onClick.AddListener(_gameBoardView.RestartGame);
+            _restartButton.onClick.AddListener(OnRestartButtonClicked);
+            _interstitialAdService.Closed -= OnInterstitialClosed;
+            _interstitialAdService.Error -= OnInterstitialError;
+        }
+
+        private void OnInterstitialClosed()
+        {
+            _gameBoardView.RestartGame();
+        }
+
+        private void OnInterstitialError(string error)
+        {
+            _gameBoardView.RestartGame();
+        }
+
+        private void OnRestartButtonClicked()
+        {
+            _interstitialAdService.OpenInterstitialAd();
         }
     }
 }

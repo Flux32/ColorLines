@@ -20,6 +20,7 @@ namespace Balls.Source.Infrastructure.Installers
             DontDestroyOnLoad(audioPlayService);
 
             containerBuilder
+                .AddSingletonInterfaces(typeof(FakeInterstitialAdService))
                 .AddSingletonInterfaces(typeof(LogService))
                 .AddSingletonInterfaces(typeof(LoadOperationService))
                 .AddSingletonInterfaces(typeof(AudioVolumeService))
