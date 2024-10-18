@@ -9,9 +9,9 @@ namespace Balls.Source.Logic.Score
     public class GameScore : IGameScore, IDisposable
     {
         private readonly IBestScoreRepository _bestScoreRepository;
-        private readonly GameBoard.GameBoard _gameBoard;
+        private readonly GameBoard.Board _gameBoard;
         
-        public GameScore(IBestScoreRepository bestScoreRepository, GameBoard.GameBoard gameBoard)
+        public GameScore(IBestScoreRepository bestScoreRepository, GameBoard.Board gameBoard)
         {
             _bestScoreRepository = bestScoreRepository;
             _gameBoard = gameBoard;

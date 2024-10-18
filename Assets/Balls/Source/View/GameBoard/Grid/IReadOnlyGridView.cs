@@ -2,7 +2,7 @@
 using Balls.Source.Logic.GameBoard;
 using UnityEngine;
 
-namespace Balls.Source.View.GameBoard
+namespace Balls.Source.View.GameBoard.Grid
 {
     public interface IReadOnlyGridView
     {

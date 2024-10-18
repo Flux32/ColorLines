@@ -6,7 +6,6 @@
         public virtual void Exit() { }
         public virtual void Tick(float deltaTime) { }
 
-        public virtual bool Trigger(IFSMCommand command) => false;
-        public virtual bool Trigger<TArgs>(IFSMCommand<TArgs> command) => false;
+        public virtual void Trigger(IFSMCommand command) { }
     }
 }

@@ -11,13 +11,13 @@ namespace Balls.Source
 {
     public class LevelBootstrapper : MonoBehaviour, ILevelBootstrapper
     {
-        private GameBoardView _gameBoardView;
+        private BoardView _gameBoardView;
         private GameCamera _gameCamera;
         private GameScore _gameScore;
 
         [Inject]
         private void Constructor(
-            GameBoardView gameBoardView, 
+            BoardView gameBoardView, 
             GameCamera gameCamera,
             GameScore gameScore)
         {   

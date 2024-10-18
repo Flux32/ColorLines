@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using Balls.Source.Infrastructure.Extensions;
 using Balls.Source.Logic.GameBoard.Balls;
 using Balls.Source.View.GameBoard.Balls;
+using Balls.Source.View.GameBoard.Grid;
 
 namespace Balls.Source.View.GameBoard.Jobs
 {

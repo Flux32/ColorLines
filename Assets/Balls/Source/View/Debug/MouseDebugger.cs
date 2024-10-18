@@ -7,11 +7,11 @@ namespace Balls.Source.View.Debug
 {
     public sealed class MouseDebugger : MonoBehaviour
     {
-        private Logic.GameBoard.GameBoard _gameBoard;
+        private Logic.GameBoard.Board _gameBoard;
         private CellPointerInput _cellInput;
 
         [Inject]
-        private void Constructor(Logic.GameBoard.GameBoard gameBoard, CellPointerInput cellInput)
+        private void Constructor(Logic.GameBoard.Board gameBoard, CellPointerInput cellInput)
         {
             _gameBoard = gameBoard;
             _cellInput = cellInput;

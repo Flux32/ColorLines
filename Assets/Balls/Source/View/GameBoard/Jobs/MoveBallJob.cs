@@ -3,9 +3,9 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Balls.Source.Logic.GameBoard.Pathfinding;
-using Balls.Source.Infrastructure.Extensions;
 using Balls.Source.Core.Struct;
 using Balls.Source.View.GameBoard.Balls;
+using Balls.Source.View.GameBoard.Grid;
 
 namespace Balls.Source.View.GameBoard.Jobs
 {

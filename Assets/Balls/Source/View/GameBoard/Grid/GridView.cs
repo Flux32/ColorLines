@@ -2,12 +2,12 @@ using Balls.Source.Core.Struct;
 using Balls.Source.Logic.GameBoard;
 using UnityEngine;
 
-namespace Balls.Source.View.GameBoard
+namespace Balls.Source.View.GameBoard.Grid
 {
     public sealed class GridView : MonoBehaviour, IReadOnlyGridView
     {
         [SerializeField] private CellBackground _cellBackgroundPrefab;
-        [SerializeField] private float _cellSize = 0.8f;
+        [SerializeField] private float _cellSize = 1f;
         
         private CellView[,] _cells;
         

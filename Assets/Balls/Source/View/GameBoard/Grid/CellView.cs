@@ -2,7 +2,7 @@
 using Balls.Source.View.GameBoard.Balls;
 using UnityEngine;
 
-namespace Balls.Source.View.GameBoard
+namespace Balls.Source.View.GameBoard.Grid
 {
     public class CellView
     {
@@ -41,7 +41,7 @@ namespace Balls.Source.View.GameBoard
             Ball = null;
         }
         
-        public void TransitToNormalState()
+        public void TransitFromHoldToIdleState()
         {
             if (HasBall())
             {
@@ -78,10 +78,16 @@ namespace Balls.Source.View.GameBoard
                 _cellBackground.TransitToPressedState();
         }
 
-        public void TransitToPerformedState()
+        public void SelectCell()
         {
-            if (HasBall() == false)
-                _cellBackground.TransitFromPressedStateToHoldedState();
+            if (HasBall())
+                Ball.SetSelectedState();
+        }
+
+        public void UnselectCell()
+        {
+            if (HasBall())
+                Ball.SetUnselectedState();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Threading;
-using Balls.Source.Core.Struct;
 using Cysharp.Threading.Tasks;
+using Balls.Source.Core.Struct;
+using Balls.Source.View.GameBoard.Grid;
 
 namespace Balls.Source.View.GameBoard.Jobs
 {

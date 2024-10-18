@@ -10,7 +10,7 @@ using Balls.Source.Logic.GameBoard.Solvers;
 
 namespace Balls.Source.Logic.GameBoard
 {
-    public sealed class GameBoard
+    public sealed class Board
     {
         private IBallGenerator _ballGenerator;
         private IPathfinder _pathfinder;
@@ -20,7 +20,7 @@ namespace Balls.Source.Logic.GameBoard
         
         private Grid _grid;
         
-        public GameBoard(IGameBoardModulesFactory modulesFactory)
+        public Board(IGameBoardModulesFactory modulesFactory)
         {
             _modulesFactory = modulesFactory;
         }

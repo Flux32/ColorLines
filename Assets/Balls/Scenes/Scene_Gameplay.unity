@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ballViewFactory: {fileID: 1525076847}
-  _gameBoardView: {fileID: 1525076845}
+  _gridView: {fileID: 1525076848}
   _gameCamera: {fileID: 1574903981}
 --- !u!1 &206173311
 GameObject:
@@ -279,10 +279,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1525076843}
-  - component: {fileID: 1525076845}
-  - component: {fileID: 1525076844}
   - component: {fileID: 1525076847}
   - component: {fileID: 1525076846}
+  - component: {fileID: 1525076848}
   m_Layer: 0
   m_Name: GameBoard
   m_TagString: Untagged
@@ -305,33 +304,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1525076844
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1525076842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc53cb4f236b8e246ad3c400bd0f28db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _cellBackgroundPrefab: {fileID: 5873587769242348120, guid: c5b566355ce75c64796d13558e69f951, type: 3}
-  _cellSize: 1.05
---- !u!114 &1525076845
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1525076842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cb211aa8c5ef2347a38be32a5f6ca01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gridView: {fileID: 1525076844}
 --- !u!114 &1525076846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -372,6 +344,20 @@ MonoBehaviour:
     Sprite: {fileID: 21300000, guid: fcfcf9dbe0049ce48b48d0f961d1f09b, type: 3}
     AccentColor: {r: 1, g: 0.5424528, b: 0.94046926, a: 1}
   _ballPrefab: {fileID: -3070926578075069533, guid: aca7c33093fdf2c49a392ba3c1edbfab, type: 3}
+--- !u!114 &1525076848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1525076842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 814b0e2a6b3dd9041bbc0ad06a6a50e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cellBackgroundPrefab: {fileID: 5873587769242348120, guid: c5b566355ce75c64796d13558e69f951, type: 3}
+  _cellSize: 1
 --- !u!114 &1574903981 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7425861327147844482, guid: 59a5f94574927254e8d0b9ba8268c153, type: 3}

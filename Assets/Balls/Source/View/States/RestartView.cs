@@ -9,11 +9,11 @@ namespace Balls.Source.View.States
     {
         [SerializeField] private Button _restartButton;
         
-        private GameBoardView _gameBoardView;
+        private BoardView _gameBoardView;
         private IInterstitialAdService _interstitialAdService;
 
         [Inject]
-        private void Constructor(GameBoardView gameBoardView, IInterstitialAdService interstitialAdService)
+        private void Constructor(BoardView gameBoardView, IInterstitialAdService interstitialAdService)
         {
             _gameBoardView = gameBoardView;
             _interstitialAdService = interstitialAdService;

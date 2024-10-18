@@ -24,9 +24,7 @@ namespace Balls.Source.View.GameBoard.Balls
         private BallJumpAnimator _jumpAnimator;
         private BallMoveAnimator _moveAnimator;
         private BallSolveAnimator _solveAnimator;
-        
-        private bool _selected;
-        
+                
         public GridPosition CellPosition { get; set; }
         public Color AccentColor { get; private set; }
         
@@ -50,18 +48,13 @@ namespace Balls.Source.View.GameBoard.Balls
             await _moveAnimator.PlayMove(path, cancellationToken);
         }
         
-        public void Select()
+        public void SetSelectedState()
         {
-            if (_selected == true)
-                return;
-
-            _selected = true;
             _jumpAnimator.StartJump();
         }
     
-        public void Unselect()
+        public void SetUnselectedState()
         {
-            _selected = false;
             _jumpAnimator.StopJump().Forget(); //TODO: for move
         }
     

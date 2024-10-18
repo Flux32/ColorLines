@@ -5,8 +5,8 @@ using Cysharp.Threading.Tasks;
 
 namespace Balls.Source.View.GameBoard
 {
-    public interface IJobExecutor
+    public interface IJobExecuter
     {
-        UniTask Execute(CancellationToken cancellationToken, params IViewJob[] jobs);
+        UniTask Execute(CancellationToken cancellationToken = default, params IViewJob[] jobs);
     }
 }

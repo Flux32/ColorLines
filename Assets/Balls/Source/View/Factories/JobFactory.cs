@@ -1,7 +1,6 @@
 using Balls.Source.Logic.GameBoard.Operations;
-using Balls.Source.View.GameBoard;
+using Balls.Source.View.GameBoard.Grid;
 using Balls.Source.View.GameBoard.Jobs;
-using UnityEngine;
 
 namespace Balls.Source.View.Factories
 {

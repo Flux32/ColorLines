@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace Balls.Source.View.GameBoard.Input
 {
-    public class GameBoardInputRouter : MonoBehaviour
+    public class BoardInputRouter : MonoBehaviour
     {
         private CellPointerInput _cellInput;
-        private GameBoardView _gameBoardView;
+        private BoardView _gameBoardView;
         private IGameBoardInputService _inputService;
 
         private GridPosition _cursorGridPosition = new GridPosition(-1, -1);
@@ -16,7 +16,7 @@ namespace Balls.Source.View.GameBoard.Input
         [Inject]
         private void Constructor(
             IGameBoardInputService inputService,
-            GameBoardView gameBoardView, 
+            BoardView gameBoardView, 
             CellPointerInput cellInput)
         {
             _inputService = inputService;
@@ -40,12 +40,12 @@ namespace Balls.Source.View.GameBoard.Input
         
         private void OnCursorPressed(Vector2 position)
         {
-            _gameBoardView.Input(GameBoardInputAction.Press, _cursorGridPosition);
+            _gameBoardView.Input(BoardInputAction.Press, _cursorGridPosition);
         }
 
         private void OnCursorReleased(Vector2 position)
         {
-            _gameBoardView.Input(GameBoardInputAction.Performed, _cursorGridPosition);
+            _gameBoardView.Input(BoardInputAction.Performed, _cursorGridPosition);
         }
         
         private void OnCursorMoved(Vector2 position)
@@ -55,8 +55,8 @@ namespace Balls.Source.View.GameBoard.Input
             if (gridPosition == _cursorGridPosition)
                 return;
             
-            _gameBoardView.Input(GameBoardInputAction.None, _cursorGridPosition);
-            _gameBoardView.Input(GameBoardInputAction.Hold, gridPosition);
+            _gameBoardView.Input(BoardInputAction.None, _cursorGridPosition);
+            _gameBoardView.Input(BoardInputAction.Hold, gridPosition);
             _cursorGridPosition = gridPosition; 
         }
     }

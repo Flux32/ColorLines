@@ -49,6 +49,7 @@ namespace Balls.Core.StateMachine
         {
             Debug.Log(typeof(TState).Name);
             CheckIfNotInititalized();
+            ThrowExceptionIfStateNotRegistered<TState>();
 
             Enter(typeof(TState));
         }
@@ -58,6 +59,7 @@ namespace Balls.Core.StateMachine
             Debug.Log(typeof(TState).Name);
 
             CheckIfNotInititalized();
+            ThrowExceptionIfStateNotRegistered<TState>();
 
             Enter(typeof(TState), value);
         }
@@ -72,6 +74,14 @@ namespace Balls.Core.StateMachine
         {
             if (_initialized == false)
                 throw new InvalidOperationException("FSM is not initialized");
+        }
+
+        private void ThrowExceptionIfStateNotRegistered<TState>() where TState : IState
+        {
+            Type stateType = typeof(TState);
+
+            if (_states.ContainsKey(stateType) == false)
+                throw new InvalidOperationException($"State {stateType} doesn't registered in fsm");
         }
 
         private void Enter(Type state)
@@ -123,14 +133,9 @@ namespace Balls.Core.StateMachine
                 exitableState?.Exit();
         }
 
-        public bool Trigger(IFSMCommand command)
+        public void Trigger(IFSMCommand command)
         {
-            return _currentState.Trigger(command);
-        }
-
-        public bool Trigger<TArgs>(IFSMCommand<TArgs> command)
-        {
-            return _currentState.Trigger(command);
+            _currentState.Trigger(command);
         }
     }
 }

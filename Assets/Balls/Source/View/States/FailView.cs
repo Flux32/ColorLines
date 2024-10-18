@@ -10,10 +10,10 @@ namespace Balls.Source.View.States
         [SerializeField] private Button _restartButton;
         [SerializeField] private RestartButtonAnimations _restartButtonAnimations;
         
-        private Logic.GameBoard.GameBoard _gameBoard;
+        private Logic.GameBoard.Board _gameBoard;
 
         [Inject]
-        private void Constructor(Logic.GameBoard.GameBoard gameBoard)
+        private void Constructor(Logic.GameBoard.Board gameBoard)
         {
             _gameBoard = gameBoard;
         }

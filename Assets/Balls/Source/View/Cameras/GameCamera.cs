@@ -11,10 +11,10 @@ namespace Balls.Source.View.Cameras
         [SerializeField] private CinemachineVirtualCamera _gameBoardCamera;
         
         private Camera _camera;
-        private GameBoardView _gameBoardView;
+        private BoardView _gameBoardView;
 
         [Inject]
-        private void Constructor(Camera mainCamera, GameBoardView gameBoardView)
+        private void Constructor(Camera mainCamera, BoardView gameBoardView)
         {
             _camera = mainCamera;
             _gameBoardView = gameBoardView;
