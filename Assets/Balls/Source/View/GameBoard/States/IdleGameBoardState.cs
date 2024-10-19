@@ -1,6 +1,7 @@
 ﻿using Balls.Core.StateMachine;
 using Balls.Source.View.GameBoard;
 using Balls.Source.View.GameBoard.Grid;
+using Balls.Source.View.GameBoard.States;
 
 public sealed class IdleGameBoardState : SimpleState
 {

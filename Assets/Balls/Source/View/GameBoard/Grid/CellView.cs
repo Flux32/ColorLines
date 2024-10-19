@@ -44,10 +44,7 @@ namespace Balls.Source.View.GameBoard.Grid
         public void TransitFromHoldToIdleState()
         {
             if (HasBall())
-            {
                 Ball.TransitToNormalState();
-                return;
-            }
             
             _cellBackground.TransitFromHoldToNormalState();
         }
@@ -55,10 +52,7 @@ namespace Balls.Source.View.GameBoard.Grid
         public void TransitToHoldState()
         {
             if (HasBall())
-            {
                 Ball.TransitToHoldState();
-                return;
-            }
             
             _cellBackground.TransitToHoldState();
 
@@ -68,8 +62,8 @@ namespace Balls.Source.View.GameBoard.Grid
         {
             if (HasBall())
                 Ball.TransitToHoldState();
-            else
-                _cellBackground.TransitToHoldState(cursorColor);
+            
+            _cellBackground.TransitToHoldState(cursorColor);
         }
 
         public void TransitToPressedState()

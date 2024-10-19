@@ -7,7 +7,7 @@ using Balls.Source.View.GameBoard.Grid;
 
 namespace Balls.Source.View.GameBoard.States
 {
-    public class RestartBoardState : SimpleState
+    public sealed class CreateGameBoardState : PayloadState<GridSize>
     {
         private readonly IJobExecutor _jobExecutor;
         private readonly IJobFactory _jobFactory;
@@ -17,24 +17,28 @@ namespace Balls.Source.View.GameBoard.States
 
         private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
-        public RestartBoardState(
-            IJobFactory jobFactory, 
+        public CreateGameBoardState(
+            IJobFactory jobFactory,
             IJobExecutor jobExecutor,
             Board gameBoard,
+            GridView gridView,
             BoardView gameBoardView)
         {
             _jobFactory = jobFactory;
             _jobExecutor = jobExecutor;
             _gameBoard = gameBoard;
+            _gridView = gridView;
             _gameBoardView = gameBoardView;
         }
 
-        public override async void Enter()
+        public override async void Enter(GridSize gridSize)
         {
-            GenerationOperationResult generationResult = _gameBoard.RestartGame();
+            GenerationOperationResult generationResult =
+                _gameBoard.NewGame(new GridSize(gridSize.Width, gridSize.Height));
 
+            _gridView.CreateGrid(gridSize);
             await _jobExecutor.Execute(_cancellationTokenSource.Token,
-                _jobFactory.CreateRestartGameJobs(generationResult, _gridView));
+                _jobFactory.CreateInitFirstGameJobs(generationResult, _gridView));
 
             _gameBoardView.Enter<IdleGameBoardState>();
         }

@@ -6,6 +6,7 @@ using Balls.Source.Core.Struct;
 using Balls.Source.Logic.GameBoard;
 using Balls.Source.View.Factories;
 using Balls.Source.View.GameBoard.Grid;
+using Balls.Source.View.GameBoard.States;
 
 namespace Balls.Source.View.GameBoard
 {
@@ -15,7 +16,7 @@ namespace Balls.Source.View.GameBoard
         private readonly IJobFactory _jobFactory;
         private readonly Board _board;
 
-        private readonly IJobExecuter _jobExecuter = new JobExecutor();
+        private readonly IJobExecutor _jobExecutor = new JobExecutor();
         private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
         public IReadOnlyGridView Grid => _gridView;
@@ -34,12 +35,12 @@ namespace Balls.Source.View.GameBoard
         {
             return new Dictionary<Type, IState>()
             {
-                [typeof(CreateGameBoardState)] = new CreateGameBoardState(_jobFactory, _jobExecuter, _board, _gridView, this),
+                [typeof(CreateGameBoardState)] = new CreateGameBoardState(_jobFactory, _jobExecutor, _board, _gridView, this),
                 [typeof(IdleGameBoardState)] = new IdleGameBoardState(this),
                 [typeof(ChoiceTargetPositionState)] = new ChoiceTargetPositionState(_gridView, this),
-                [typeof(MakeMoveBoardState)] = new MakeMoveBoardState(_jobExecuter, _jobFactory, _board, _gridView, this),
+                [typeof(MakeMoveBoardState)] = new MakeMoveBoardState(_jobExecutor, _jobFactory, _board, _gridView, this),
                 [typeof(FilledBoardState)] = new FilledBoardState(),
-                [typeof(RestartBoardState)] = new RestartBoardState(_jobFactory, _jobExecuter, _board, this),
+                [typeof(RestartBoardState)] = new RestartBoardState(_jobFactory, _jobExecutor, _board, this),
             };
         }
         

@@ -1,6 +1,9 @@
 ﻿using Balls.Core.StateMachine;
 
-public sealed class FilledBoardState : SimpleState
+namespace Balls.Source.View.GameBoard.States
 {
+    public sealed class FilledBoardState : SimpleState
+    {
     
+    }
 }
