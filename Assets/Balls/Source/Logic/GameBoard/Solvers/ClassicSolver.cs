@@ -22,11 +22,12 @@ namespace Balls.Source.Logic.GameBoard.Solvers
         {
             Ball[] detectedPattern = _patternDetector.Detect(position, grid);
             SolveScore solveScore = _scoreCalculator.Calculate(Array.AsReadOnly(detectedPattern));
+            Ball solveOrigin = grid[position];
             
             foreach (Ball ball in detectedPattern)
                 grid.TryRemoveBall(ball.Position);
             
-            return new SolveResult(Array.AsReadOnly(detectedPattern), solveScore);
+            return new SolveResult(Array.AsReadOnly(detectedPattern), solveScore, solveOrigin);
         }
     }
 }

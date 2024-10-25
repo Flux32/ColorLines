@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Balls.Source.Logic.GameBoard.Operations;
@@ -11,31 +12,59 @@ namespace Balls.Source.View.GameBoard.Jobs
     public sealed class SolveBallJob : IViewJob
     {
         private readonly GridView _gridView;
-        private readonly SolveResult _solve;
+        private readonly SolveResult _solveResult;
         private readonly IBallViewFactory _ballViewFactory;
 
         public SolveBallJob(SolveResult solveResult, GridView gridView, IBallViewFactory ballViewFactory)
         {
-            _solve = solveResult;
+            _solveResult = solveResult;
             _gridView = gridView;
             _ballViewFactory = ballViewFactory;
         }
 
         public async UniTask Execute(CancellationToken cancellationToken)
         {
-            BallView[] solvedBallsViews = _solve.Balls.Select(ball => _gridView[ball.Position].Ball).ToArray();
-            List<UniTask> animationTasks = new List<UniTask>();
+            if (_solveResult.SolveExecuted == false)
+                return;
             
-            foreach (BallView ballView in solvedBallsViews)
-            {
-                animationTasks.Add(ballView.PlaySolveAnimation());
-                await UniTask.WaitForSeconds(0.1f, cancellationToken: cancellationToken);
-                _gridView[ballView.CellPosition].DetachBall();
-            }
-            await UniTask.WhenAll(animationTasks).AttachExternalCancellation(cancellationToken);
+            CellView[] solvedCells = _solveResult.Balls.Select(cell => _gridView[cell.Position]).ToArray();
+            CellView originCell = _gridView[_solveResult.SolveOrigin.Position];
+            
+            int originCellIndex = Array.IndexOf(solvedCells, originCell);
+            
+            List<UniTask> animationTasks = new List<UniTask>();
 
-            foreach (BallView ballView in solvedBallsViews)
-                _ballViewFactory.ReclaimBall(ballView);
+            int step = 1;
+
+            int maxSteps = Math.Max(originCellIndex - 1, solvedCells.Length - originCellIndex - 1);
+            
+            animationTasks.Add(SolveBall(solvedCells[originCellIndex]));
+            
+            while (step <= maxSteps)
+            {
+                int leftCursor = originCellIndex - step;
+                int rightCursor = originCellIndex + step;
+                
+                if (leftCursor > 0)
+                    animationTasks.Add(SolveBall(solvedCells[leftCursor]));
+
+                if (rightCursor < solvedCells.Length)
+                    animationTasks.Add(SolveBall(solvedCells[rightCursor]));
+
+                step++;
+                await UniTask.WaitForSeconds(0.1f, cancellationToken: cancellationToken);
+            }
+            
+            await UniTask.WhenAll(animationTasks).AttachExternalCancellation(cancellationToken);
+        }
+
+        private async UniTask SolveBall(CellView cell)
+        {
+            BallView ball = cell.Ball;
+            await ball.PlaySolveAnimation();
+            cell.DetachBall();                    
+
+            _ballViewFactory.ReclaimBall(ball);
         }
     }
 }
