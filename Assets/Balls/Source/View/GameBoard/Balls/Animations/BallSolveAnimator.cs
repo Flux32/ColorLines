@@ -10,7 +10,7 @@ namespace Balls.Source.View.GameBoard.Balls.Animations
     {
         private readonly Transform _ballTransform;
         private readonly BallSolveAnimationSettings _animationSettings;
-        
+
         private Tween _tween;
 
         public BallSolveAnimator(Transform ballTransform, BallSolveAnimationSettings animationSettings)
@@ -20,17 +20,17 @@ namespace Balls.Source.View.GameBoard.Balls.Animations
         }
 
         public event Action Solved;
-        
-        public async UniTask PlaySolve(CancellationToken cancellationToken = default)
+
+        public UniTask PlaySolve(CancellationToken cancellationToken = default)
         {
             _tween?.Kill();
-            
-            _tween = _ballTransform
-                        .DOScale(Vector3.zero, _animationSettings.SolveDuration)
-                        .SetEase(_animationSettings.SolveEase);
-            
-            await _tween.WithCancellation(cancellationToken);
+
+            _animationSettings.PopEffect.gameObject.SetActive(true);
+
+            _ballTransform.localScale = Vector3.zero;
+            GameObject.Instantiate(_animationSettings.PopEffect, _ballTransform.position, Quaternion.identity);
             Solved?.Invoke();
+            return UniTask.CompletedTask;
         }
 
         public void Dispose()

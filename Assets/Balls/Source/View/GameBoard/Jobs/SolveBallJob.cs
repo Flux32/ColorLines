@@ -58,6 +58,11 @@ namespace Balls.Source.View.GameBoard.Jobs
             await UniTask.WhenAll(animationTasks).AttachExternalCancellation(cancellationToken);
         }
 
+        private void SortCells()
+        {
+
+        }
+
         private async UniTask SolveBall(CellView cell)
         {
             BallView ball = cell.Ball;

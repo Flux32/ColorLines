@@ -51,6 +51,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -104,6 +107,9 @@ TrailRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -225,7 +231,8 @@ MonoBehaviour:
     _moveSpeed: 15
     _moveEase: 1
   _solveAnimationSettings:
-    _solveDuration: 0.2
+    _popEffect: {fileID: 8230247198733042017, guid: 25ad9be1bf23d7440953136027337181, type: 3}
+    _solveDuration: 0.07
     _solveEase: 1
   _soundsSettings:
     _spawnClip: {fileID: 0}

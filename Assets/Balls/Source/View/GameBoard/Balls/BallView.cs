@@ -16,7 +16,7 @@ namespace Balls.Source.View.GameBoard.Balls
         [SerializeField] private BallJumpAnimationSettings _jumpAnimationSettings;
         [SerializeField] private BallMoveAnimationSettings _moveAnimationSettings;
         [SerializeField] private BallSolveAnimationSettings _solveAnimationSettings;
-    
+
         [Header("Sounds")]
         [SerializeField] private BallSoundsSettings _soundsSettings;
         

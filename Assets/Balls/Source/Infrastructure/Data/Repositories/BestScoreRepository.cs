@@ -24,6 +24,13 @@ namespace Balls.Source.Infrastructure.Data.Repositories
         public async UniTask<BestScore> Get()
         {
             BestScoreEntity score = await _dataStorage.Load<BestScoreEntity>(BestScoreKey);
+
+            if (score == null)
+                score = new BestScoreEntity()
+                {
+                    Date = new System.DateTime(),
+                    Value = 0
+                };
             return Map(score);
         }
 
