@@ -7,10 +7,12 @@ namespace Balls.Source.View.Factories
     public sealed class JobFactory : IJobFactory
     {
         private readonly IBallViewFactory _ballViewFactory;
-
-        public JobFactory(IBallViewFactory ballViewFactory)
+        private readonly IEffectsFactory _effectsFactory;
+        
+        public JobFactory(IBallViewFactory ballViewFactory, IEffectsFactory effectsFactory)
         {
             _ballViewFactory = ballViewFactory;
+            _effectsFactory = effectsFactory;
         }
 
         public IViewJob[] CreateRestartGameJobs(GenerationOperationResult generationResult, GridView gridView)
@@ -37,11 +39,11 @@ namespace Balls.Source.View.Factories
 
             for (int i = 0; i < solveBallJobsAfterGenerate.Length; i++)
                 solveBallJobsAfterGenerate[i] = 
-                    new SolveBallJob(moveResult.SolvedBallsAfterGeneration[i], gridView, _ballViewFactory);
+                    new SolveBallJob(moveResult.SolvedBallsAfterGeneration[i], gridView, _ballViewFactory, _effectsFactory);
             
             return new IViewJob[] {
                 new MoveBallJob(moveResult.MovedResult.Path, gridView),
-                new SolveBallJob(moveResult.SolvedBallsAfterMove, gridView, _ballViewFactory),
+                new SolveBallJob(moveResult.SolvedBallsAfterMove, gridView, _ballViewFactory, _effectsFactory),
                 new SpawnBallJob(_ballViewFactory, gridView, moveResult.GenerationOperationResult.SpawnedBalls),
                 new WhenAllJobsCompletedJob(solveBallJobsAfterGenerate),
             };

@@ -68,9 +68,9 @@ namespace Balls.Source.View.GameBoard.Balls
             return _spawnAnimator.PlaySpawn();
         }
 
-        public UniTask PlaySolveAnimation()
+        public async UniTask PlaySolveAnimation()
         {
-            return _solveAnimator.PlaySolve();
+            await _solveAnimator.PlaySolve();
         }
 
         public void TransitToHoldState()

@@ -3,25 +3,25 @@ using UnityEngine;
 
 namespace Balls.Source.View.Effects
 {
-    public class SimpleEffect : MonoBehaviour, ISimpleEffect
+    public class SimpleEffect : MonoBehaviour
     {
-        private static readonly int PopHash = Animator.StringToHash("Pop");
+        private static readonly int PopHash = Animator.StringToHash("Play");
 
         [SerializeField] private Animator _animator;
 
-        private bool _isPopPlay;
+        private bool _isEffectCompleted;
 
         public async UniTask Play()
         {
             _animator.SetTrigger(PopHash);
 
-            await UniTask.WaitWhile(() => _isPopPlay);
+            await UniTask.WaitWhile(() => _isEffectCompleted);
         }
 
         //Called from animator
-        private void OnPopCompleted()
+        private void OnEffectCompleted()
         {
-            _isPopPlay = false;
+            _isEffectCompleted = false;
         }
     }
 }

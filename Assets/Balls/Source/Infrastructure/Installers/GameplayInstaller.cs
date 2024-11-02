@@ -15,6 +15,7 @@ namespace Balls.Source.Infrastructure.Installers
     public class GameplayInstaller : MonoBehaviour, IInstaller
     {
         [SerializeField] private BallViewFactory _ballViewFactory;
+        [SerializeField] private EffectsFactory _effectsFactory;
         [SerializeField] private GridView _gridView;
         [SerializeField] private GameCamera _gameCamera;
         
@@ -29,7 +30,8 @@ namespace Balls.Source.Infrastructure.Installers
                 .AddSingleton(_gridView)
                 .AddSingletonSelfAndInterfaces(typeof(GameScore))
                 .AddSingletonInterfaces(typeof(BestScoreRepository))
-                .AddSingletonInterfaces(typeof(PlayerPrefsJsonStorage));
+                .AddSingletonInterfaces(typeof(PlayerPrefsJsonStorage))
+                .AddSingletonInterfaces(_effectsFactory);
         }
     }
 }

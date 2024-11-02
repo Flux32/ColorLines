@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Balls.Source.Logic.GameBoard.Operations;
+using Balls.Source.View.Effects;
+using Balls.Source.View.Factories;
 using Balls.Source.View.GameBoard.Balls;
 using Balls.Source.View.GameBoard.Grid;
 using Cysharp.Threading.Tasks;
@@ -14,12 +16,18 @@ namespace Balls.Source.View.GameBoard.Jobs
         private readonly GridView _gridView;
         private readonly SolveResult _solveResult;
         private readonly IBallViewFactory _ballViewFactory;
-
-        public SolveBallJob(SolveResult solveResult, GridView gridView, IBallViewFactory ballViewFactory)
+        private readonly IEffectsFactory _effectsFactory;
+        
+        public SolveBallJob(
+            SolveResult solveResult, 
+            GridView gridView, 
+            IBallViewFactory ballViewFactory,
+            IEffectsFactory effectsFactory)
         {
             _solveResult = solveResult;
             _gridView = gridView;
             _ballViewFactory = ballViewFactory;
+            _effectsFactory = effectsFactory;
         }
 
         public async UniTask Execute(CancellationToken cancellationToken)
@@ -67,6 +75,16 @@ namespace Balls.Source.View.GameBoard.Jobs
         {
             BallView ball = cell.Ball;
             await ball.PlaySolveAnimation();
+
+            SimpleEffect popEffect = _effectsFactory.CreatePopEffect();
+            popEffect.transform.position = cell.Ball.transform.position;
+            popEffect.Play().Forget();
+            await UniTask.WaitForSeconds(0.3f);
+            
+            FloatingValueEffect floatingValueEffect = _effectsFactory.CreateFloatingValueEffect();
+            floatingValueEffect.transform.position = cell.Ball.transform.position;
+            floatingValueEffect.Play(1).Forget();
+        
             cell.DetachBall();                    
 
             _ballViewFactory.ReclaimBall(ball);
