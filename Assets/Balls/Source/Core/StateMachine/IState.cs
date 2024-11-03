@@ -1,7 +1,9 @@
-﻿namespace Balls.Core.StateMachine
+﻿using Balls.Source.Core.StateMachine;
+
+namespace Balls.Core.StateMachine
 {
     public interface IState
     {
-        public void Trigger(IFSMCommand command);
+        public void Trigger(IFsmCommand command);
     }
 }

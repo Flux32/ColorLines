@@ -1,40 +1,44 @@
 ﻿using Balls.Core.StateMachine;
-using Balls.Source.View.GameBoard;
+using Balls.Source.Core.StateMachine;
+using Balls.Source.View.GameBoard.Commands;
 using Balls.Source.View.GameBoard.Grid;
-using Balls.Source.View.GameBoard.States;
 
-public sealed class IdleGameBoardState : SimpleState
+namespace Balls.Source.View.GameBoard.States
 {
-    private readonly BoardView _gameBoardView;
-
-    public IdleGameBoardState(BoardView gameBoardView)
+    public sealed class IdleGameBoardState : SimpleState
     {
-        _gameBoardView = gameBoardView;
-    }
+        private readonly BoardView _gameBoardView;
 
-    public override void Trigger(IFSMCommand command)
-    {
-        if (command is InputCommand inputCommand)
-            Input(inputCommand.GameBoardInputAction, inputCommand.Cell);
-    }
-
-    private void Input(BoardInputAction action, CellView cell)
-    {
-        switch (action)
+        public IdleGameBoardState(BoardView gameBoardView)
         {
-            case BoardInputAction.None:
-                cell.TransitFromHoldToIdleState();
-                break;
-            case BoardInputAction.Hold:
+            _gameBoardView = gameBoardView;
+        }
+
+        public override void Trigger(IFsmCommand command)
+        {
+            if (command is InputCommand inputCommand)
+                Input(inputCommand.GameBoardInputAction, inputCommand.Cell);
+            else if (command is RestartGameCommand)
+                _gameBoardView.Enter<RestartBoardState>();
+        }
+
+        private void Input(BoardInputAction action, CellView cell)
+        {
+            switch (action)
+            {
+                case BoardInputAction.None:
+                    cell.TransitFromHoldToIdleState();
+                    break;
+                case BoardInputAction.Hold:
                 {
                     cell.TransitToHoldState();
                     break;
                 }
-            case BoardInputAction.Press:
-                break;
-            case BoardInputAction.CancelPress:
-                break;
-            case BoardInputAction.Performed:
+                case BoardInputAction.Press:
+                    break;
+                case BoardInputAction.CancelPress:
+                    break;
+                case BoardInputAction.Performed:
                 {
                     if (cell.HasBall())
                     {
@@ -43,6 +47,7 @@ public sealed class IdleGameBoardState : SimpleState
                     }
                     break;
                 }
+            }
         }
     }
 }

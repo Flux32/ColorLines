@@ -1,5 +1,7 @@
 ﻿using Balls.Core.StateMachine;
+using Balls.Source.Core.StateMachine;
 using Balls.Source.View.GameBoard.Balls;
+using Balls.Source.View.GameBoard.Commands;
 using Balls.Source.View.GameBoard.Grid;
 
 namespace Balls.Source.View.GameBoard.States
@@ -22,9 +24,13 @@ namespace Balls.Source.View.GameBoard.States
             _selectedCell = selectedCell;
         }
 
-        public override void Trigger(IFSMCommand command)
+        public override void Trigger(IFsmCommand command)
         {
-            if (command is InputCommand inputCommand)
+            if (command is RestartGameCommand)
+            {
+                _gameBoardView.Enter<RestartBoardState>();
+            }
+            else if (command is InputCommand inputCommand)
             {
                 CellView cellView = inputCommand.Cell;
                 BallView ball = _selectedCell.Ball;

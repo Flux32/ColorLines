@@ -21,11 +21,13 @@ namespace Balls.Source.View.GameBoard.States
             IJobFactory jobFactory, 
             IJobExecutor jobExecutor,
             Board gameBoard,
+            GridView gridView,
             BoardView gameBoardView)
         {
             _jobFactory = jobFactory;
             _jobExecutor = jobExecutor;
             _gameBoard = gameBoard;
+            _gridView = gridView;
             _gameBoardView = gameBoardView;
         }
 

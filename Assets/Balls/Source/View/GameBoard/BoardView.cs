@@ -2,9 +2,11 @@ using System;
 using System.Threading;
 using System.Collections.Generic;
 using Balls.Core.StateMachine;
+using Balls.Source.Core.StateMachine;
 using Balls.Source.Core.Struct;
 using Balls.Source.Logic.GameBoard;
 using Balls.Source.View.Factories;
+using Balls.Source.View.GameBoard.Commands;
 using Balls.Source.View.GameBoard.Grid;
 using Balls.Source.View.GameBoard.States;
 
@@ -40,7 +42,7 @@ namespace Balls.Source.View.GameBoard
                 [typeof(ChoiceTargetPositionState)] = new ChoiceTargetPositionState(_gridView, this),
                 [typeof(MakeMoveBoardState)] = new MakeMoveBoardState(_jobExecutor, _jobFactory, _board, _gridView, this),
                 [typeof(FilledBoardState)] = new FilledBoardState(),
-                [typeof(RestartBoardState)] = new RestartBoardState(_jobFactory, _jobExecutor, _board, this),
+                [typeof(RestartBoardState)] = new RestartBoardState(_jobFactory, _jobExecutor, _board, _gridView, this),
             };
         }
         
@@ -51,7 +53,7 @@ namespace Balls.Source.View.GameBoard
 
         public void RestartGame()
         {
-
+            Trigger(new RestartGameCommand());
         }
         
         public void Input(BoardInputAction action, GridPosition position)

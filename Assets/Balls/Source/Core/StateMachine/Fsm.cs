@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using Balls.Core.StateMachine;
 using UnityEngine;
 
-namespace Balls.Core.StateMachine
+namespace Balls.Source.Core.StateMachine
 {
-    public abstract class Fsm : IFSM, IUpdatable
+    public abstract class Fsm : IFsm, IUpdatable
     {
         private Dictionary<Type, IState> _states;
 
@@ -133,7 +134,7 @@ namespace Balls.Core.StateMachine
                 exitableState?.Exit();
         }
 
-        public void Trigger(IFSMCommand command)
+        public void Trigger(IFsmCommand command)
         {
             _currentState.Trigger(command);
         }

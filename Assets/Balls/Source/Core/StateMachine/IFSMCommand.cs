@@ -1,9 +1,4 @@
-﻿namespace Balls.Core.StateMachine
+﻿namespace Balls.Source.Core.StateMachine
 {
-    public interface IFSMCommand { }
-
-    public interface IFSMCommand<T>
-    {
-        public T Args { get; }
-    }
+    public interface IFsmCommand { }
 }

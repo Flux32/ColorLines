@@ -47,6 +47,7 @@ namespace Balls.Source.View.States
         private void OnRestartButtonClicked()
         {
             _interstitialAdService.OpenInterstitialAd();
+            _gameBoardView.RestartGame();
         }
     }
 }
