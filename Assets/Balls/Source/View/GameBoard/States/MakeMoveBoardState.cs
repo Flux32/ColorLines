@@ -34,8 +34,8 @@ namespace Balls.Source.View.GameBoard.States
         public override async void Enter(MoveRequest moveRequest)
         {
             MoveOperationResult moveOperationResult = _gameBoard.MakeMove(moveRequest.FromPosition, moveRequest.ToPosition);
-
-            await _jobExecutor.Execute(_cancellationTokenSource.Token, 
+            
+            await _jobExecutor.Execute(_cancellationTokenSource.Token,
                 _jobFactory.CreateSolveJobs(moveOperationResult, _gridView));
 
             if (_gameBoard.Grid.IsFilled() == true)

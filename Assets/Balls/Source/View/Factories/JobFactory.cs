@@ -1,3 +1,4 @@
+using Balls.Source.Logic.GameBoard;
 using Balls.Source.Logic.GameBoard.Operations;
 using Balls.Source.View.GameBoard.Grid;
 using Balls.Source.View.GameBoard.Jobs;
@@ -34,6 +35,12 @@ namespace Balls.Source.View.Factories
 
         public IViewJob[] CreateSolveJobs(MoveOperationResult moveResult, GridView gridView)
         {
+            if (moveResult.Result == MoveResult.PathFailed)
+                return new IViewJob[]
+                {
+                    new FailedPathJob(moveResult.MovedResult.Ball.Position, gridView),
+                };
+                
             IViewJob[] solveBallJobsAfterGenerate =
                 new IViewJob[moveResult.SolvedBallsAfterGeneration.Count];
 

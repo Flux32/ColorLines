@@ -48,19 +48,19 @@ namespace Balls.Source.Logic.GameBoard
             return _ballGenerator.Generate(_grid);
         }
         
-        public MoveOperationResult MakeMove(GridPosition fromPosition, GridPosition toPosition)
+        public MoveOperationResult MakeMove(GridPosition fromPosition, GridPosition toPosition) //TODO: visitor
         {
             if (_grid.IsBallExist(fromPosition) == false)
                 return new MoveOperationResult(MoveResult.BallDoesNotExist);
             
             Path path = _pathfinder.FindPath(fromPosition, toPosition, _grid);
 
-            if (path.Failed == true)
-                return new MoveOperationResult(MoveResult.PathFailed);
+            if (path.Failed)
+                return new MoveOperationResult(MoveResult.PathFailed, new BallMovingResult(path, _grid[fromPosition]));
 
             BallMovingResult ballMovingResult = null;
             
-            if (_grid.TryReplaceBall(fromPosition, toPosition) == true) 
+            if (_grid.TryReplaceBall(fromPosition, toPosition)) 
                 ballMovingResult = new BallMovingResult(path, _grid[toPosition]);
 
             SolveResult solveResult = _solver.Solve(toPosition, _grid);

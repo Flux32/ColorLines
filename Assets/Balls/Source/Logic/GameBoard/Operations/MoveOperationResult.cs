@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Balls.Source.Logic.GameBoard.Balls;
+using Balls.Source.Logic.GameBoard.Pathfinding;
 
 namespace Balls.Source.Logic.GameBoard.Operations
 {
@@ -24,7 +25,14 @@ namespace Balls.Source.Logic.GameBoard.Operations
             Result = result;
         }
         
+        public MoveOperationResult(MoveResult result, BallMovingResult movingResult)
+        {
+            Result = result;
+            MovedResult = movingResult;
+        }
+        
         public MoveResult Result { get; private set; }
+        
         public GenerationOperationResult GenerationOperationResult { get; private set; }
         public SolveResult SolvedBallsAfterMove { get; private set; }
         public ReadOnlyCollection<SolveResult> SolvedBallsAfterGeneration { get; private set; }
